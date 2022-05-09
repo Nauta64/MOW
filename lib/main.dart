@@ -1,0 +1,298 @@
+import 'package:MindOfWords/Synonyms/synonym.dart';
+import 'package:MindOfWords/spell.dart';
+import 'package:MindOfWords/Wordle/wordle.dart';
+import 'package:MindOfWords/Spell/text_to_speech.dart';
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+
+        primarySwatch: Colors.grey,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  bool _showStats = false;
+  bool _showHelp = false;
+  bool _showSettings = false;
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.grey[300],
+
+          body: Center(
+            child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+
+                      width: 315,
+                      height: 315,
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.deepPurple.shade100,
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 3.0, color: const Color(0xFF000000)
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+
+
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text("Wordle",
+                                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            child: Image.asset(
+                              'assets/wordle_background.png',
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            width: 200,
+                            child: Row(
+
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => WordleApp()),
+                                  );
+                                }, child: Text('Play'),
+
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black38),
+                                    foregroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+
+                      width: 315,
+                      height: 315,
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.deepPurple.shade100,
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 3.0, color: const Color(0xFF000000)
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+
+
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text("Spell Word",
+                                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            child: Image.asset(
+                              'assets/spell_background.png',
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            width: 200,
+                            child: Row(
+
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SpellApp()),
+                                  );
+                                }, child: Text('Play'),
+
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black38),
+                                    foregroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+
+                      width: 315,
+                      height: 315,
+                      margin: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        // color: Colors.deepPurple.shade100,
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 3.0, color: const Color(0xFF000000)
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+
+
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text("Synonyms",
+                                          style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            child: Image.asset(
+                              'assets/spell_background.png',
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            width: 200,
+                            child: Row(
+
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => SynApp()),
+                                  );
+                                }, child: Text('Play'),
+
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black38),
+                                    foregroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    ),
+
+                  ],
+                )
+
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  _openHelp() {
+    setState(() {
+      _showHelp = true;
+    });
+  }
+  _openStats() {
+    setState(() {
+      _showStats = true;
+    });
+  }
+
+  _openSettings() {
+    setState(() {
+      _showSettings = true;
+    });
+  }
+}
