@@ -238,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 200,
                             width: double.infinity,
                             child: Image.asset(
-                              'assets/spell_background.png',
+                              'assets/synonyms.png',
                             ),
                           ),
                           SizedBox(height: 8),

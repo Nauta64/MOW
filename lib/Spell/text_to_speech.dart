@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:MindOfWords/Spell/dialog_howTo.dart';
 import 'package:MindOfWords/Spell/dialog_spell.dart';
 import 'package:MindOfWords/Spell/how_to.dart';
+import 'package:MindOfWords/Spell/widgets/keyboard.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 import '../HttpService.dart';
+import 'Spellgame.dart';
 
 class SpellApp extends StatelessWidget {
   const SpellApp({Key? key}) : super(key: key);
@@ -38,8 +40,6 @@ class SpellView extends StatefulWidget {
   State<SpellView> createState() => text_to_speech();
 }
 
-
-
 enum TtsState { playing, stopped, paused, continued }
 
 class text_to_speech extends State<SpellView> {
@@ -53,7 +53,7 @@ class text_to_speech extends State<SpellView> {
   bool _showStats = false;
   bool _showHelp = false;
   bool _showSettings = false;
-
+  final SpellGame _game = SpellGame();
   int points = 0;
   double _healts = 3;
 
@@ -77,10 +77,17 @@ class text_to_speech extends State<SpellView> {
 
   bool get isWeb => kIsWeb;
 
+  var txt = TextEditingController();
+  Future<bool> _initialized = Future<bool>.value(false);
+
   @override
   Future<String?> getWordForAudio() async {
     final HttpService httpService = HttpService();
-    String randword = await httpService.getPosts() as String;
+    _initialized = _game.init().then((value) {
+      print("initialized");
+      return value;
+    });
+    String randword = _game.context.answer;
     _newVoiceText = randword;
     // _newVoiceText = "Roger Roger";
     print(randword);
@@ -195,22 +202,23 @@ class text_to_speech extends State<SpellView> {
     } else {
       setState(() {
         _healts = _healts - 1;
-        if(_healts == 0){
+        if (_healts == 0) {
           setState(() {
-            showDialog(context: context, barrierDismissible: false,
-                builder: (BuildContext context){
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
                   return CustomDialogBox(
                     title: "Game Over",
                     descriptions: "You lost, do you want to try again?",
                     text: "Yes",
                     text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
+                    img:
+                        Image(image: AssetImage('assets/spell_background.png')),
                     points: points,
                   );
-                }
-            );
+                });
           });
-
         }
       });
     }
@@ -281,65 +289,119 @@ class text_to_speech extends State<SpellView> {
     });
   }
 
+  void _onKeyPressed(String val) {
+    setState(() {
+      if (_game.evaluateTurn(val)) {
+        _game.context.guess = "";
+        txt.text = "";
+      } else {
+        txt.text = _game.context.guess;
+      }
+      ;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        // appBar: AppBar(
-        //   title: Text('Text to Speech'),
-        // ),
+    return FutureBuilder(
+        future: _initialized,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          List<Widget> children = [];
+          if (snapshot.hasData) {
+            children = [
+              Scaffold(
+                // appBar: AppBar(
+                //   title: Text('Text to Speech'),
+                // ),
 
-          appBar: AppBar(
-            leading: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 20.0),
-                child: GestureDetector(
-                  onTap: () => _openHelp(),
-                  child: const Icon(
-                    Icons.help_outline,
-                    size: 26.0,
-                  ),
-                )),
-            title: Text("Spell"),
-            centerTitle: true,
-            actions: <Widget>[
-              Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16.0),
-                  child: GestureDetector(
-                    // onTap: () => _openStats(),
-                    child: const Icon(
-                      Icons.leaderboard,
-                      size: 26.0,
+                appBar: AppBar(
+                  leading: Padding(
+                      padding: const EdgeInsets.only(left: 16, right: 20.0),
+                      child: GestureDetector(
+                        onTap: () => _openHelp(),
+                        child: const Icon(
+                          Icons.help_outline,
+                          size: 26.0,
+                        ),
+                      )),
+                  title: Text("Spell"),
+                  centerTitle: true,
+                  actions: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 16.0),
+                        child: GestureDetector(
+                          // onTap: () => _openStats(),
+                          child: const Icon(
+                            Icons.leaderboard,
+                            size: 26.0,
+                          ),
+                        )),
+                    Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: GestureDetector(
+                          // onTap: () => _openSettings(),
+                          child: const Icon(
+                            Icons.settings,
+                            size: 26.0,
+                          ),
+                        )),
+                  ],
+                ),
+
+                body: Stack(
+                  // scrollDirection: Axis.vertical,
+                  children: [
+                    Column(children: [
+                      // _actionBar(),
+                      _ratingBar(),
+                      _inputSection(),
+                      _btnSection(),
+                      _engineSection(),
+                      _futureBuilder(),
+                      _buildSliders(),
+                    ]),
+                    Positioned(
+                      bottom: 0,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 250,
+                            child: Stack(children: [
+                              Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  top: 70,
+                                  child: Keyboard(
+                                      _game.context.keys, _onKeyPressed)),
+                            ])),
+                      ),
                     ),
-                  )),
-              Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: GestureDetector(
-                    // onTap: () => _openSettings(),
-                    child: const Icon(
-                      Icons.settings,
-                      size: 26.0,
+                  ],
+                ),
+              ),
+            ];
+          } else {
+            children = [
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-                  )),
-          ],),
-
-
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              // _actionBar(),
-              _ratingBar(),
-              _inputSection(),
-              _btnSection(),
-              _engineSection(),
-              _futureBuilder(),
-              _buildSliders(),
-            ],
-          ),
-        ),
-      ),
-    );
+                    Text("Loading...",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        )),
+                  ],
+                ),
+              ),
+            ];
+          }
+          return Stack(children: children);
+        });
   }
 
   Widget _engineSection() {
@@ -369,55 +431,45 @@ class text_to_speech extends State<SpellView> {
           return Text('Loading Languages...');
       });
 
-
-  Widget _actionBar() => Row(
-
-
-
-  );
+  Widget _actionBar() => Row();
 
   Widget _ratingBar() => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-
-      Container(
-        padding: EdgeInsets.only(top: 10.0, right: 65.0),
-        child: Text("Points: ${points}", style: TextStyle(fontSize: 30),),
-
-      ),
-
-
-      Container(
-          padding: EdgeInsets.only(top: 10.0),
-
-
-          child: RatingBar(
-            initialRating: _healts,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            ignoreGestures: true,
-            itemCount: 3,
-            ratingWidget: RatingWidget(
-              full: _image('assets/heart.png'),
-              half: _image('assets/heart_half.png'),
-              empty: _image('assets/heart_border.png'),
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 10.0, right: 65.0),
+            child: Text(
+              "Points: ${points}",
+              style: TextStyle(fontSize: 30),
             ),
-            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-            onRatingUpdate: (rating) {
-              print(rating);
-            },
-          )
-      ),
-    ],
-
-  );
-
-
+          ),
+          Container(
+              padding: EdgeInsets.only(top: 10.0),
+              child: RatingBar(
+                initialRating: _healts,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                ignoreGestures: true,
+                itemCount: 3,
+                ratingWidget: RatingWidget(
+                  full: _image('assets/heart.png'),
+                  half: _image('assets/heart_half.png'),
+                  empty: _image('assets/heart_border.png'),
+                ),
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              )),
+        ],
+      );
 
   Widget _inputSection() => Container(
       alignment: Alignment.topCenter,
       padding: EdgeInsets.only(top: 2.0, left: 25.0, right: 25.0),
       child: TextField(
+        controller: txt,
+        keyboardType: TextInputType.none,
         onChanged: (String value) {
           _onChange(value);
         },
@@ -475,7 +527,6 @@ class text_to_speech extends State<SpellView> {
         ),
       ]));
 
-
   Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
       String label, Function func) {
     return Column(
@@ -512,7 +563,8 @@ class text_to_speech extends State<SpellView> {
         min: 0.0,
         max: 1.0,
         divisions: 10,
-        label: "Volume: $volume");
+        label: "Volume: $volume",
+        activeColor: Colors.blue);
   }
 
   Widget _pitch() {
@@ -554,8 +606,10 @@ class text_to_speech extends State<SpellView> {
 
   _openHelp() {
     setState(() {
-      showDialog(context: context, barrierDismissible: false,
-          builder: (BuildContext context){
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
             return CustomDialogHowTo(
               title: "How To Play Spell",
               descriptions: "The game starts with 3 lives.?",
@@ -564,8 +618,7 @@ class text_to_speech extends State<SpellView> {
               img: Image(image: AssetImage('assets/spell_background.png')),
               points: points,
             );
-          }
-      );
+          });
     });
   }
 

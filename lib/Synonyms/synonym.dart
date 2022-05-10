@@ -60,12 +60,12 @@ class _SpellViewState extends State<SynView>
     // initialize timercontroller
     _timerController = TimerController(this);
     _initialized = _game.init().then((value) {
+      print("initialized");
       return value;
     });
     btn_play.text = "PLAY";
     super.initState();
   }
-
 
   void _onKeyPressed(String val) {
     setState(() {
@@ -86,192 +86,212 @@ class _SpellViewState extends State<SynView>
         future: _initialized,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           List<Widget> children = [];
-          children = [
-            Scaffold(
-                appBar: AppBar(
-                  leading: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 20.0),
-                      child: GestureDetector(
-                        onTap: () => _openHelp(),
-                        child: const Icon(
-                          Icons.help_outline,
-                          size: 26.0,
-                        ),
-                      )),
-                  title: Text("Synonyms"),
-                  centerTitle: true,
-                  actions: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 16.0),
+          if (snapshot.hasData) {
+            children = [
+              Scaffold(
+                  appBar: AppBar(
+                    leading: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 20.0),
                         child: GestureDetector(
-                          onTap: () =>  _openStats(),
+                          onTap: () => _openHelp(),
                           child: const Icon(
-                            Icons.leaderboard,
+                            Icons.help_outline,
                             size: 26.0,
                           ),
                         )),
-                    Padding(
-                        padding: const EdgeInsets.only(right: 20.0),
-                        child: GestureDetector(
-                          // onTap: () => _openSettings(),
-                          child: const Icon(
-                            Icons.settings,
-                            size: 26.0,
-                          ),
-                        )),
-                  ],
-                ),
-                body: Stack(children: [
-                  Positioned(
-                    bottom: 160,
-                    top: 10,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 60,
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: SimpleTimer(
-                                duration: const Duration(seconds: 60),
-                                controller: _timerController,
-                                onStart: handleTimerOnStart,
-                                onEnd: handleTimerOnEnd,
-                                valueListener: timerValueChangeListener,
-                                backgroundColor: Colors.white10,
-                                progressIndicatorColor: Colors.blue,
-                                progressTextStyle:
-                                    TextStyle(color: Colors.black),
-                                progressIndicatorDirection:
-                                    _progressIndicatorDirection,
-                                progressTextCountDirection:
-                                    _progressTextCountDirection,
-                                strokeWidth: 7
-                              ),
+                    title: Text("Synonyms"),
+                    centerTitle: true,
+                    actions: <Widget>[
+                      Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 16.0),
+                          child: GestureDetector(
+                            onTap: () => _openStats(),
+                            child: const Icon(
+                              Icons.leaderboard,
+                              size: 26.0,
                             ),
-                            Container(
-                              width: 50,
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: GestureDetector(
+                            // onTap: () => _openSettings(),
+                            child: const Icon(
+                              Icons.settings,
+                              size: 26.0,
                             ),
-                            Text(
-                              answer.text,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                          )),
+                    ],
                   ),
-                  Positioned(
-                      bottom: 240,
-                      top: 70,
+                  body: Stack(children: [
+                    Positioned(
+                      bottom: 160,
+                      top: 10,
                       left: 0,
                       right: 0,
-                      child: Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          // color: Colors.deepPurple.shade100,
-                          color: Colors.white,
-                          border: Border.all(
-                              width: 3.0, color: const Color(0xFF000000)),
-                        ),
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(8),
-                          itemCount: entries.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(entries[index],
-                                    textAlign: TextAlign.center),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 60,
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                child: SimpleTimer(
+                                    duration: const Duration(seconds: 60),
+                                    controller: _timerController,
+                                    onStart: handleTimerOnStart,
+                                    onEnd: handleTimerOnEnd,
+                                    valueListener: timerValueChangeListener,
+                                    backgroundColor: Colors.white10,
+                                    progressIndicatorColor: Colors.blue,
+                                    progressTextStyle:
+                                        TextStyle(color: Colors.black),
+                                    progressIndicatorDirection:
+                                        _progressIndicatorDirection,
+                                    progressTextCountDirection:
+                                        _progressTextCountDirection,
+                                    strokeWidth: 7),
                               ),
-                            );
-                          },
-                        ),
-                      )),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 190,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 300.0,
-                          child: TextField(
-                            controller: txt,
-                            keyboardType: TextInputType.none,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(8.0),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 7,
-                        ),
-                        Container(
-                          width: 100.0,
-                          height: 49,
-                          child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                if (btn_play.text == "PLAY") {
-                                  setState(() {
-                                    answer.text = _game.context.answer.word;
-                                  });
-                                  _timerController.start();
-                                  btn_play.text = "ENTER";
-                                } else {
-                                  entries
-                                      .add(_game.context.guess.toLowerCase());
-                                  _game.context.guess = "";
-                                  txt.text = "";
-                                }
-                              });
-                            },
-                            child: Text(
-                              btn_play.text,
-                              style: TextStyle(
-                                fontSize: 16,
+                              Container(
+                                width: 50,
                               ),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.black),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
-                            ),
+                              Text(
+                                answer.text,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 250,
-                            child: Stack(children: [
-                              Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  top: 70,
-                                  child: Keyboard(
-                                      _game.context.keys, _onKeyPressed)),
-                            ]))),
-                  ),
-                ])),
-          ];
-
+                    Positioned(
+                        bottom: 240,
+                        top: 70,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.deepPurple.shade100,
+                            color: Colors.white,
+                            border: Border.all(
+                                width: 3.0, color: const Color(0xFF000000)),
+                          ),
+                          child: ListView.builder(
+                            padding: const EdgeInsets.all(8),
+                            itemCount: entries.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(entries[index],
+                                      textAlign: TextAlign.center),
+                                ),
+                              );
+                            },
+                          ),
+                        )),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 190,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 300.0,
+                            child: TextField(
+                              controller: txt,
+                              keyboardType: TextInputType.none,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.all(8.0),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 7,
+                          ),
+                          Container(
+                            width: 100.0,
+                            height: 49,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (btn_play.text == "PLAY") {
+                                    setState(() {
+                                      answer.text = _game.context.answer.word;
+                                    });
+                                    _timerController.start();
+                                    btn_play.text = "ENTER";
+                                  } else {
+                                    entries
+                                        .add(_game.context.guess.toLowerCase());
+                                    _game.context.guess = "";
+                                    txt.text = "";
+                                  }
+                                });
+                              },
+                              child: Text(
+                                btn_play.text,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.black),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 250,
+                              child: Stack(children: [
+                                Positioned(
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    top: 70,
+                                    child: Keyboard(
+                                        _game.context.keys, _onKeyPressed)),
+                              ]))),
+                    ),
+                  ])),
+            ];
+          } else {
+            children = [
+              Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      Text("Loading...",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                          )
+                      ),
+                    ],
+              ),
+              ),
+            ];
+          }
           return Stack(children: children);
         });
   }
@@ -341,6 +361,7 @@ class _SpellViewState extends State<SynView>
           });
     });
   }
+
   _openStats() {
     setState(() {
       showDialog(
@@ -353,11 +374,13 @@ class _SpellViewState extends State<SynView>
       _showStats = true;
     });
   }
+
   void _closeStats() {
     setState(() {
       _showStats = false;
     });
   }
+
   void _newGame() {
     setState(() {
       _game.init();
