@@ -1,3 +1,4 @@
+import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Synonyms/synonym.dart';
 import 'package:MindOfWords/spell.dart';
 import 'package:MindOfWords/Wordle/wordle.dart';
@@ -53,7 +54,28 @@ class _MyHomePageState extends State<MyHomePage> {
       home: SafeArea(
         child: Scaffold(
           backgroundColor: Colors.grey[300],
-
+          appBar: AppBar(
+            backgroundColor: Colors.black87,
+            title: Row(
+              children: [
+                Text("Mind Of Words"),
+              ],
+            ),
+            actions: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (builder) => const SignUpPage()));
+                },
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/heart.png'),
+                ),
+              ),
+              const SizedBox(
+                width: 25,
+              ),
+            ],
+          ),
           body: Center(
             child: SingleChildScrollView(
                 child: Column(
