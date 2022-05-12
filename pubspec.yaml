@@ -50,6 +50,7 @@ dependencies:
   simple_timer: ^2.0.0
   flutter_tts: ^3.3.3
   speech_to_text: ^5.4.3
+  image_picker: ^0.8.5+2
 
 
 dev_dependencies:
@@ -79,6 +80,15 @@ flutter:
     - assets/spell_background.png
     - assets/wordle_background.png
     - assets/synonyms.png
+    - assets/avatars/cerdo.png
+    - assets/avatars/ciervo.png
+    - assets/avatars/gallina.png
+    - assets/avatars/gato.png
+    - assets/avatars/mono.png
+    - assets/avatars/panda.png
+    - assets/avatars/perro.png
+    - assets/avatars/vaca.png
+    - assets/avatars/zorro.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

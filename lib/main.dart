@@ -1,5 +1,6 @@
 import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Synonyms/synonym.dart';
+import 'package:MindOfWords/profile.dart';
 import 'package:MindOfWords/signIn.dart';
 import 'package:MindOfWords/spell.dart';
 import 'package:MindOfWords/Wordle/wordle.dart';
@@ -397,7 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (builder) => const SignUpPage()));
+              builder: (builder) => const ProfilePage()));
     } else if (value == 1) {
       final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final prefs = await SharedPreferences.getInstance();
