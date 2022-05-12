@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:MindOfWords/main.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Models/login.dart';
 import 'SignUp.dart';
@@ -18,6 +19,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool circular = false;
 
   @override
@@ -180,11 +182,18 @@ class _SignInPageState extends State<SignInPage> {
     return InkWell(
       onTap: () async {
         try {
+          final prefs = await SharedPreferences.getInstance();
           final jsonString = json.encode(LogUser(UserName: _emailController.text,Password: _passwordController.text));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-          final response = await http.post(Uri.parse("http://192.168.0.134:5000/login"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
+          final response = await http.post(Uri.parse("https://t1edtq.deta.dev/login"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
             print("Conexion no establecida, error en la conexion");
           });
+          if(response.statusCode == 200){
+            print("Conexion Establecida");
+            await prefs.setString('userName', _emailController.text);
+            // await prefs.setString('mail', _emailController.text);
+            await prefs.setString('password', _passwordController.text);
+          }
           setState(() {
             circular = false;
           });

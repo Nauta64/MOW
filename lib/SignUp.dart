@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:MindOfWords/Models/user.dart';
 import 'package:MindOfWords/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
@@ -194,15 +195,20 @@ class _SignUpPageState extends State<SignUpPage> {
           circular = true;
         });
         try {
+          final prefs = await SharedPreferences.getInstance();
           final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-          final response = await http.post(Uri.parse("http://192.168.0.134:5000/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
+          final response = await http.post(Uri.parse("https://t1edtq.deta.dev/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
             print("Conexion no establecida, error en la conexion");
           });
           Map<String, dynamic> user;
           if(response.statusCode == 200){
             print("Conexion Establecida");
+            await prefs.setString('userName', _nameController.text);
+            await prefs.setString('mail', _emailController.text);
+            await prefs.setString('password', _passwordController.text);
           }
+
           // firebase_auth.UserCredential userCredential =
           // await firebaseAuth.createUserWithEmailAndPassword(
           //     email: _emailController.text,

@@ -43,13 +43,14 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   page_transition: ^1.0.9
   trotter: ^0.9.1
-  shared_preferences: ^0.5.2
+  shared_preferences: ^2.0.15
   rxdart: ^0.21.0
   native_state: ^1.0.0-rc01
   polygon_clipper: ^1.0.2
   simple_timer: ^2.0.0
   flutter_tts: ^3.3.3
   speech_to_text: ^5.4.3
+
 
 dev_dependencies:
   flutter_test:
