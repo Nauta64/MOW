@@ -208,6 +208,7 @@ class Wordle {
   void persist() {
     Future.delayed(Duration.zero, () async {
       await ContextService().saveContext(_context);
+
     });
   }
 }

@@ -57,7 +57,7 @@ class StatsService {
 
   Future<void> saveStats(Stats stats) async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = json.encode(stats);
+    final jsonString = json.encode({"userName":await prefs.getString('userName') ,"stat": stats});
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http
         .post(Uri.parse("http://172.16.24.2:5000/setStatsWordle"),
