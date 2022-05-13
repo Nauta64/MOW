@@ -29,7 +29,7 @@ class WordService {
   Future<String> getWordOfTheDay() async {
     final HttpService httpService = HttpService();
     String randword = await httpService.getPosts() as String;
-    print(randword);
+    print("");
     return randword;
   }
   // String getWordOfTheDay(DateTime baseDate) {
