@@ -73,27 +73,23 @@ class Wordle {
       _bounceKeys.add(GlobalKey<AnimatorWidgetState>());
     }
 
-    var context = await ContextService().loadContext();
+    // var context = await ContextService().loadContext();
     _stats = await _statsService.loadStats();
     _settings = await SettingsService().load();
 
     await _wordService.init();
-    if (context == null) {
-      _initContext();
-    } else {
-        _initContext();
-    }
+    await _initContext();
+
     return true;
   }
 
-  void _initContext() {
+  Future<bool> _initContext() async{
     var board = Board(List.filled(boardSize, Letter(0, '', GameColor.unset), growable: false));
-    _context = Context(board, KeyboardService.init().keys, '', '', [], TurnResult.unset, totalTries,
+    String s = await _wordService.getWordOfTheDay();
+    _context = Context(board, KeyboardService.init().keys, s, '', [], TurnResult.unset, totalTries,
         'Good Luck!', 0, DateTime.now());
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      _context.answer = await _wordService.getWordOfTheDay(_baseDate);
-    });
 
+    return true;
   }
 
   bool didWin(List<Letter> attempt) =>
@@ -206,8 +202,8 @@ class Wordle {
   }
 
   void persist() {
-    Future.delayed(Duration.zero, () async {
-      await ContextService().saveContext(_context);
-    });
+    // Future.delayed(Duration.zero, () async {
+    //   await ContextService().saveContext(_context);
+    // });
   }
 }

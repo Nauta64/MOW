@@ -26,7 +26,7 @@ class WordService {
     _guesses = await _readFile('assets/allowed_guesses.txt');
   }
 
-  Future<String> getWordOfTheDay(DateTime baseDate) async {
+  Future<String> getWordOfTheDay() async {
     final HttpService httpService = HttpService();
     String randword = await httpService.getPosts() as String;
     print(randword);

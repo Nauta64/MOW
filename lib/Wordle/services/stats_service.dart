@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,14 +14,22 @@ class StatsService {
   }
 
   Future<Stats> loadStats() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final exists = await File("${directory.path}/stats.json").exists();
-    final jsonString = exists
-        ? await File("${directory.path}/stats.json").readAsString()
-        : await _readAsset('assets/stats.json');
 
-    final map = json.decode(jsonString);
-    return Stats.fromJson(map);
+    if (kIsWeb) {
+      // Set web-specific directory
+    } else {
+      final directory = await getApplicationDocumentsDirectory();
+      final exists = await File("${directory.path}/stats.json").exists();
+      final jsonString = exists
+          ? await File("${directory.path}/stats.json").readAsString()
+          : await _readAsset('assets/stats.json');
+
+      final map = json.decode(jsonString);
+      return Stats.fromJson(map);
+    }
+
+   return Stats(0,0, Streak(0,0), [0,0], 0, "",
+       0);
   }
 
   Future<Stats> updateStats(
@@ -41,12 +50,17 @@ class StatsService {
     stats.lastBoard = getSharable(index);
     stats.gameNumber = gameNumber;
 
-    await saveStats(stats);
+    // await saveStats(stats);
     return stats;
   }
 
   Future<void> saveStats(Stats stats) async {
-    final directory = await getApplicationDocumentsDirectory();
-    await File("${directory.path}/stats.json").writeAsString(json.encode(stats.toJson()));
+    if (kIsWeb) {
+      // Set web-specific directory
+    } else {
+      final directory = await getApplicationDocumentsDirectory();
+      await File("${directory.path}/stats.json").writeAsString(json.encode(stats.toJson()));
+    }
+
   }
 }

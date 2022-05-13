@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:MindOfWords/Wordle/app_theme.dart';
 import 'package:MindOfWords/Wordle/domain.dart';

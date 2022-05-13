@@ -7,7 +7,7 @@ import 'package:MindOfWords/Wordle/services/context_service.dart';
 import 'package:MindOfWords/Spell/services/keyboard_service.dart';
 import 'package:MindOfWords/Synonyms/services/stats_service.dart';
 import 'package:MindOfWords/Wordle/services/word_service.dart';
-import 'package:trotter/trotter.dart';
+
 
 import '../HttpService.dart';
 
