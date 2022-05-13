@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:MindOfWords/Spell/constants.dart';
 import 'package:MindOfWords/Spell/text_to_speech.dart';
+import 'package:MindOfWords/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomDialogSelectAvatar extends StatefulWidget {
   final String title, descriptions, text, text2;
@@ -23,6 +25,7 @@ class CustomDialogSelectAvatar extends StatefulWidget {
 }
 
 class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
+  TextEditingController _image = TextEditingController();
   List<_Photo> _photos(BuildContext context) {
     return [
       _Photo(
@@ -135,18 +138,17 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
-                        onPressed: () {
+                        onPressed: () async {
                           //===== TANCAR DIALOG =======
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
                           }
-                          //====== REINICIAR VIEW =====
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.setString('avatar', _image.text);
                           Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation1, animation2) =>
-                                        SpellApp(),
+                                pageBuilder: (context, animation1, animation2) => ProfilePage(),
                                 transitionDuration: Duration.zero,
                                 reverseTransitionDuration: Duration.zero,
                               ));
@@ -170,7 +172,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
             child: ClipRRect(
                 borderRadius:
                     BorderRadius.all(Radius.circular(Constants.avatarRadius)),
-                child: Image.asset("assets/spell_background.png")),
+                child: widget.img),
           ),
         ),
       ],
@@ -186,9 +188,9 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
         iconSize: 100,
         onPressed: () {
           setState(() {
-
             widget.img = Image.asset(img);
             print(widget.img);
+            _image.text = img;
           });
         },
       )

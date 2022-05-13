@@ -12,7 +12,7 @@ class SynStatsService {
     return await rootBundle.loadString(fileName);
   }
 
-  Future<Stats> loadStats() async {
+  Future<SynStats> loadStats() async {
     final directory = await getApplicationDocumentsDirectory();
     final exists = await File("${directory.path}/stats.json").exists();
     final jsonString = exists
@@ -20,11 +20,11 @@ class SynStatsService {
         : await _readAsset('assets/stats.json');
 
     final map = json.decode(jsonString);
-    return Stats.fromJson(map);
+    return SynStats.fromJson(map);
   }
 
-  Future<Stats> updateStats(
-      Stats stats, bool won, int index, int gameNumber) async {
+  Future<SynStats> updateStats(
+      SynStats stats, bool won, int index, int gameNumber) async {
     if (won) {
       stats.guessDistribution[index] += 1;
       stats.lastGuess = index + 1;
@@ -44,7 +44,7 @@ class SynStatsService {
     return stats;
   }
 
-  Future<void> saveStats(Stats stats) async {
+  Future<void> saveStats(SynStats stats) async {
     final directory = await getApplicationDocumentsDirectory();
     await File("${directory.path}/stats.json").writeAsString(json.encode(stats.toJson()));
   }

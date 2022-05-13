@@ -83,11 +83,7 @@ class text_to_speech extends State<SpellView> {
   @override
   Future<String?> getWordForAudio() async {
     final HttpService httpService = HttpService();
-    _initialized = _game.init().then((value) {
-      print("initialized");
-      return value;
-    });
-    String randword = _game.context.answer;
+    String randword = await httpService.getPosts() as String;
     _newVoiceText = randword;
     // _newVoiceText = "Roger Roger";
     print(randword);
@@ -95,11 +91,16 @@ class text_to_speech extends State<SpellView> {
     return _newVoiceText;
   }
 
+
   @override
   initState() {
-    super.initState();
-    initTts();
+    _initialized = _game.init().then((value) {
+      print("initialized");
+      return value;
+    });
     getWordForAudio();
+    initTts();
+    super.initState();
   }
 
   void _closeStats() {

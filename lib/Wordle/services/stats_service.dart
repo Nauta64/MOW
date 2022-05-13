@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:MindOfWords/Wordle/domain.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StatsService {
   Future<String> _readAsset(String fileName) async {
@@ -14,26 +14,27 @@ class StatsService {
   }
 
   Future<Stats> loadStats() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = json.encode({"userName": prefs.getString('userName')});
+    final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final response = await http
+        .post(Uri.parse("http://172.16.24.2:5000/getStatsWordle"),
+            headers: headers, body: jsonString)
+        .timeout(const Duration(seconds: 5))
+        .catchError((onError) {
+      print("Conexion no establecida, error en la conexion");
+    });
+    if (response.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(response.body);
 
-    if (kIsWeb) {
-      // Set web-specific directory
+      return Stats.fromJson(body["stat"]);
     } else {
-      final directory = await getApplicationDocumentsDirectory();
-      final exists = await File("${directory.path}/stats.json").exists();
-      final jsonString = exists
-          ? await File("${directory.path}/stats.json").readAsString()
-          : await _readAsset('assets/stats.json');
-
-      final map = json.decode(jsonString);
-      return Stats.fromJson(map);
+      throw "Unable to retrieve posts.";
     }
-
-   return Stats(0,0, Streak(0,0), [0,0], 0, "",
-       0);
   }
 
-  Future<Stats> updateStats(
-      Stats stats, bool won, int index, String Function(int n) getSharable, int gameNumber) async {
+  Future<Stats> updateStats(Stats stats, bool won, int index,
+      String Function(int n) getSharable, int gameNumber) async {
     if (won) {
       stats.guessDistribution[index] += 1;
       stats.lastGuess = index + 1;
@@ -50,17 +51,21 @@ class StatsService {
     stats.lastBoard = getSharable(index);
     stats.gameNumber = gameNumber;
 
-    // await saveStats(stats);
+    await saveStats(stats);
     return stats;
   }
 
   Future<void> saveStats(Stats stats) async {
-    if (kIsWeb) {
-      // Set web-specific directory
-    } else {
-      final directory = await getApplicationDocumentsDirectory();
-      await File("${directory.path}/stats.json").writeAsString(json.encode(stats.toJson()));
-    }
+    final prefs = await SharedPreferences.getInstance();
+    final jsonString = json.encode(stats);
+    final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final response = await http
+        .post(Uri.parse("http://172.16.24.2:5000/setStatsWordle"),
+        headers: headers, body: jsonString)
+        .timeout(const Duration(seconds: 5))
+        .catchError((onError) {
+      print("Conexion no establecida, error en la conexion");
+    });
 
   }
 }

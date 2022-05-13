@@ -198,7 +198,7 @@ class _SignUpPageState extends State<SignUpPage> {
           final prefs = await SharedPreferences.getInstance();
           final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-          final response = await http.post(Uri.parse("https://t1edtq.deta.dev/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
+          final response = await http.post(Uri.parse("http://192.168.0.134:5000/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
             print("Conexion no establecida, error en la conexion");
           });
           Map<String, dynamic> user;

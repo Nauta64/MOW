@@ -24,14 +24,14 @@ class SynGame {
   final _baseDate = DateTime(2021, DateTime.june, 19);
 
   late SynContext _context;
-  late Stats _stats;
+  late SynStats _stats;
   late final List<GlobalKey<AnimatorWidgetState>> _shakeKeys = [];
   late final List<GlobalKey<AnimatorWidgetState>> _bounceKeys = [];
 
   var _wordService = WordService();
 
   bool isEvaluating = false;
-  Stats get stats => _stats;
+  SynStats get stats => _stats;
   int get _gameNumber => DateTime.now().difference(_baseDate).inDays;
 
   Future<Synonym> getSynonyms() async {
@@ -58,7 +58,7 @@ class SynGame {
 
     return true;
   }
-  Future<Stats> _updateStats(bool won, int remainingTries) async {
+  Future<SynStats> _updateStats(bool won, int remainingTries) async {
     return await _statsService.updateStats(
         _stats, won, (remainingTries - totalTries).abs(), _gameNumber);
   }

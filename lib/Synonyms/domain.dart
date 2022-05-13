@@ -74,7 +74,7 @@ class SynContext {
     return data;
   }
 }
-class Stats {
+class SynStats {
   int won;
   int lost;
   Streak streak;
@@ -83,10 +83,10 @@ class Stats {
   String lastBoard;
   int gameNumber;
 
-  Stats(this.won, this.lost, this.streak, this.guessDistribution, this.lastGuess, this.lastBoard,
+  SynStats(this.won, this.lost, this.streak, this.guessDistribution, this.lastGuess, this.lastBoard,
       this.gameNumber);
 
-  Stats.fromJson(Map<String, dynamic> json)
+  SynStats.fromJson(Map<String, dynamic> json)
       : won = json['won'],
         lost = json['lost'],
         streak = json['streak'] = Streak.fromJson(json['streak']),

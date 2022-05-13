@@ -10,6 +10,7 @@ import 'package:MindOfWords/Wordle/services/word_service.dart';
 
 
 import '../HttpService.dart';
+import '../Synonyms/domain.dart';
 
 class SpellGame {
   static const boardSize = 30;
@@ -26,14 +27,16 @@ class SpellGame {
   final _baseDate = DateTime(2021, DateTime.june, 19);
 
   late SpellContext _context;
-  // late Stats _stats;
+
+  late SynStats _stats;
   late final List<GlobalKey<AnimatorWidgetState>> _shakeKeys = [];
   late final List<GlobalKey<AnimatorWidgetState>> _bounceKeys = [];
 
   var _wordService = WordService();
 
   bool isEvaluating = false;
-  // Stats get stats => _stats;
+
+  SynStats get stats => _stats;
   int get _gameNumber => DateTime.now().difference(_baseDate).inDays;
 
   Future<String> getWords() async {
@@ -47,23 +50,25 @@ class SpellGame {
     print("Init");
     await _initContext();
     await _wordService.init();
-    // _stats = await _statsService.loadStats();
+    _stats = await _statsService.loadStats();
     return true;
   }
 
-  Future<bool> _initContext() async{
+  Future<bool> _initContext() async {
     String s = await getWords();
     _context = SpellContext(KeyboardService.init().keys, s, '', [], 0,
         'Good Luck!', 0, DateTime.now());
     print("InitContext");
+    _context.answer = s;
     // print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA${_context.answer}");
 
     return true;
   }
-  // Future<Stats> _updateStats(bool won, int remainingTries) async {
-  //   return await _statsService.updateStats(
-  //       _stats, won, (remainingTries - totalTries).abs(), _gameNumber);
-  // }
+
+  Future<SynStats> _updateStats(bool won, int remainingTries) async {
+    return await _statsService.updateStats(
+        _stats, won, (remainingTries - totalTries).abs(), _gameNumber);
+  }
   evaluateTurn(String letter) {
     isEvaluating = true;
     if (KeyboardService.isEnter(letter)) {
@@ -82,21 +87,22 @@ class SpellGame {
   }
 
   SpellContext get context => _context;
-  //
-  // Future updateAfterSuccessfulGuess() async {
-  //   var won = didWin(_context.attempt);
-  //   if (won || _context.aciertos >= 1) {
-  //     _stats = await _updateStats(won, 0);
-  //   }
-  //   _context.guess = '';
-  //   _context.attempt = [];
-  //
-  //
-  //
-  // }
 
-  bool didWin(List<SpellLetter> attempt) =>
-      attempt.isNotEmpty ;
+
+  Future updateAfterSuccessfulGuess() async {
+    var won = didWin(_context.attempt);
+    if (won || _context.aciertos >= 1) {
+      _stats = await _updateStats(won, 0);
+    }
+    _context.guess = '';
+    _context.attempt = [];
+
+
+
+  }
+
+  bool didWin(List<SpellLetter> attempt) => attempt.isNotEmpty;
+
   void reloadGame() {
     _statsService = SynStatsService();
     _wordService = WordService();

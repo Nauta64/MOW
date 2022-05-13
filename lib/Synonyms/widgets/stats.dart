@@ -12,11 +12,11 @@ class StatsWidget extends StatefulWidget {
   StatsWidget(this._stats, this._close, this._newGame, {Key? key})
       : super(key: key);
 
-  final Stats _stats;
+  final SynStats _stats;
   final Function _close;
   final Function _newGame;
 
-  Stats get stats => _stats;
+  SynStats get stats => _stats;
 
   Function get close => _close;
 
@@ -30,13 +30,13 @@ class _StatsState extends State<StatsWidget> {
   int _getFlex(int number, int total) =>
       total == 0 ? 0 : (number / (number + (total - number)) * 10).ceil();
 
-  Future<Stats> get _stats => SynStatsService().loadStats();
+  Future<SynStats> get _stats => SynStatsService().loadStats();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: _stats,
-        builder: (BuildContext context, AsyncSnapshot<Stats> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<SynStats> snapshot) {
           return Material(
             shadowColor: Colors.black12,
             child: FittedBox(
