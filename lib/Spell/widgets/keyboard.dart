@@ -12,7 +12,7 @@ class Keyboard extends StatelessWidget {
   Widget _buildCell(String letter) {
     return SizedBox(
       width: letter.length > 1 ? 60 : 40,
-      height: 52,
+      height: 58,
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
@@ -55,6 +55,6 @@ class Keyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(width: 400, height: 220, child: Column(children: _buildKeys()));
+    return SizedBox(width: 400, height: 200, child: Column(children: _buildKeys()));
   }
 }

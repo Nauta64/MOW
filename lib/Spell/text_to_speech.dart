@@ -127,6 +127,10 @@ class text_to_speech extends State<SpellView> {
     flutterTts.setStartHandler(() {
       setState(() {
         print("Playing");
+        setState(() {
+          _game.context.answer = _newVoiceText!;
+        });
+
         ttsState = TtsState.playing;
       });
     });
@@ -193,7 +197,7 @@ class text_to_speech extends State<SpellView> {
   }
 
   Future _check() async {
-    if (_enteredText == _newVoiceText) {
+    if (txt.text == _newVoiceText) {
       setState(() {
         points++;
         getWordForAudio();
@@ -296,7 +300,7 @@ class text_to_speech extends State<SpellView> {
         _game.context.guess = "";
         txt.text = "";
       } else {
-        txt.text = _game.context.guess;
+        txt.text = _game.context.guess.toLowerCase();
       }
       ;
     });
@@ -361,19 +365,16 @@ class text_to_speech extends State<SpellView> {
                       _futureBuilder(),
                       _buildSliders(),
                     ]),
-                    Positioned(
-                      bottom: 0,
+                    SizedBox.expand(
                       child: FittedBox(
                         fit: BoxFit.contain,
                         child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 250,
+                            width: 400,
+                            height: 670,
                             child: Stack(children: [
                               Positioned(
-                                  bottom: 0,
+                                  top: 470,
                                   left: 0,
-                                  right: 0,
-                                  top: 70,
                                   child: Keyboard(
                                       _game.context.keys, _onKeyPressed)),
                             ])),

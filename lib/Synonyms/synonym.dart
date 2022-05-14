@@ -1,5 +1,6 @@
 import 'package:MindOfWords/Synonyms/Models/Synonym.dart';
 import 'package:MindOfWords/Synonyms/dialog_howTo.dart';
+import 'package:MindOfWords/Synonyms/dialog_syn.dart';
 import 'package:MindOfWords/Synonyms/syngame.dart';
 import 'package:MindOfWords/Synonyms/widgets/stats.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:simple_timer/simple_timer.dart';
 import 'package:quiver/collection.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../Spell/constants.dart';
 import '../Synonyms/widgets/keyboard.dart';
 
 class SynApp extends StatelessWidget {
@@ -125,7 +127,7 @@ class _SpellViewState extends State<SynView>
                   body: Stack(children: [
                     Positioned(
                       bottom: 160,
-                      top: 10,
+                      top: 5,
                       left: 0,
                       right: 0,
                       child: Column(
@@ -167,8 +169,8 @@ class _SpellViewState extends State<SynView>
                       ),
                     ),
                     Positioned(
-                        bottom: 240,
-                        top: 70,
+                        bottom: 250,
+                        top: 60,
                         left: 0,
                         right: 0,
                         child: Container(
@@ -198,7 +200,7 @@ class _SpellViewState extends State<SynView>
                     Positioned(
                       left: 0,
                       right: 0,
-                      bottom: 190,
+                      bottom: 210,
                       child: Row(
                         children: [
                           Container(
@@ -254,19 +256,16 @@ class _SpellViewState extends State<SynView>
                         ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
+                    SizedBox.expand(
                       child: FittedBox(
                           fit: BoxFit.contain,
                           child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              height: 250,
+                              width: 400,
+                              height: 670,
                               child: Stack(children: [
                                 Positioned(
-                                    bottom: 0,
+                                    top: 490,
                                     left: 0,
-                                    right: 0,
-                                    top: 70,
                                     child: Keyboard(
                                         _game.context.keys, _onKeyPressed)),
                               ]))),
@@ -331,6 +330,20 @@ class _SpellViewState extends State<SynView>
         }
       }
     }
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return CustomDialogBox(
+            title: "Game Over",
+            descriptions: "You lost, do you want to try again?",
+            text: "Yes",
+            text2: "No",
+            img:
+            Image(image: AssetImage('assets/spell_background.png')),
+            points: points,
+          );
+        });
     print(_game.context.aciertos);
     print("timer has ended");
   }
@@ -368,7 +381,10 @@ class _SpellViewState extends State<SynView>
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return StatsWidget(_game.stats, _closeStats, _newGame);
+            return Container(
+                padding: EdgeInsets.only(left: Constants.padding,top: Constants.avatarRadius
+                + Constants.padding, right: Constants.padding,bottom: Constants.padding
+            ),child: StatsWidget(_game.stats, _closeStats, _newGame));
           });
 
       _showStats = true;

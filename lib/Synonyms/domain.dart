@@ -78,24 +78,16 @@ class SynStats {
   int won;
   int lost;
   Streak streak;
-  List<int> guessDistribution;
-  int lastGuess;
-  String lastBoard;
-  int gameNumber;
 
-  SynStats(this.won, this.lost, this.streak, this.guessDistribution, this.lastGuess, this.lastBoard,
-      this.gameNumber);
+  SynStats(this.won, this.lost, this.streak);
 
   SynStats.fromJson(Map<String, dynamic> json)
       : won = json['won'],
         lost = json['lost'],
-        streak = json['streak'] = Streak.fromJson(json['streak']),
-        guessDistribution = json['guessDistribution'].cast<int>(),
-        lastGuess = json['lastGuess'],
-        lastBoard = json['lastBoard'] ?? '',
-        gameNumber = json['gameNumber'] ?? 0;
+        streak = json['streak'] = Streak.fromJson(json['streak']);
 
-  int get played => guessDistribution.reduce((value, g) => value + g) + lost;
+
+  int get played => won + lost;
 
   int get percentWon => played == 0 ? 0 : (won / played * 100).round();
 
@@ -104,10 +96,6 @@ class SynStats {
     data['won'] = won;
     data['lost'] = lost;
     data['streak'] = streak.toJson();
-    data['guessDistribution'] = guessDistribution;
-    data['lastGuess'] = lastGuess;
-    data['lastBoard'] = lastBoard;
-    data['gameNumber'] = gameNumber;
     return data;
   }
 }

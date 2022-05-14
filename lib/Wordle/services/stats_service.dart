@@ -18,7 +18,7 @@ class StatsService {
     final jsonString = json.encode({"userName": prefs.getString('userName')});
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http
-        .post(Uri.parse("http://172.16.24.2:5000/getStatsWordle"),
+        .post(Uri.parse("https://t1edtq.deta.dev/getStatsWordle"),
             headers: headers, body: jsonString)
         .timeout(const Duration(seconds: 5))
         .catchError((onError) {
@@ -60,7 +60,7 @@ class StatsService {
     final jsonString = json.encode({"userName":await prefs.getString('userName') ,"stat": stats});
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http
-        .post(Uri.parse("http://172.16.24.2:5000/setStatsWordle"),
+        .post(Uri.parse("https://t1edtq.deta.dev/setStatsWordle"),
         headers: headers, body: jsonString)
         .timeout(const Duration(seconds: 5))
         .catchError((onError) {

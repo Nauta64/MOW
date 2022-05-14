@@ -189,11 +189,7 @@ class _StatsState extends State<StatsWidget> {
                                   ),
                                 )),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                                child: _guessDistribution(),
-                              ),
+
                               Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: IntrinsicHeight(
@@ -247,13 +243,10 @@ class _StatsState extends State<StatsWidget> {
                                             style: ElevatedButton.styleFrom(
                                                 primary: Colors.green),
                                             onPressed: () {
-                                              var guesses =
-                                                  widget.stats.lastGuess == -1
-                                                      ? 'X'
-                                                      : widget.stats.lastGuess;
+
                                               Share.share(
-                                                  'MOW ${widget.stats.gameNumber} $guesses/6\n${widget.stats.lastBoard}',
-                                                  subject: 'MOW $guesses/6');
+                                                  'MOW ${widget.stats.won} }',
+                                                  subject: 'MOW Synonyms/6');
                                             },
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
@@ -289,24 +282,7 @@ class _StatsState extends State<StatsWidget> {
         });
   }
 
-  Widget _guessDistribution() {
-    if (widget.stats.played == 0) {
-      return const Center(
-          child: Text(
-        "No Data",
-        style: TextStyle(fontSize: 20),
-      ));
-    }
 
-    var maxGuess = widget.stats.guessDistribution.reduce(max);
-    var children = <Widget>[];
-
-    for (var i = 0; i < widget.stats.guessDistribution.length; i++) {
-      children.add(_statRow(i + 1, widget.stats.guessDistribution[i], maxGuess,
-          isCurrent: (i + 1) == widget.stats.lastGuess));
-    }
-    return Column(children: children);
-  }
 
   Padding _statRow(int rowNumber, int completed, int total,
       {bool isCurrent = false}) {
