@@ -81,20 +81,31 @@ class SynGame {
 
   SynContext get context => _context;
 
-  Future updateAfterSuccessfulGuess() async {
-    var won = didWin(_context.attempt);
+  Future updateAfterSuccessfulGuess(List<String> a) async {
+    var won = didWin(_context.answer.syn, a);
     if (won || _context.aciertos >= 1) {
       _stats = await _updateStats(won, 0);
     }
       _context.guess = '';
       _context.attempt = [];
 
-
-
   }
 
-  bool didWin(List<SynLetter> attempt) =>
-      attempt.isNotEmpty ;
+  bool didWin(List<String> correct, List<String> a){
+    var count = 0;
+    for (String correct in correct) {
+      for (String guess in a) {
+        if (guess == correct) {
+          count += 1;
+        }
+      }
+    }
+    if(count == correct.length){
+      return true;
+    }else{
+      return false;
+    }
+  }
   void reloadGame() {
     _statsService = SynStatsService();
     _wordService = WordService();

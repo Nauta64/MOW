@@ -66,15 +66,18 @@ class _SpellViewState extends State<SynView>
       return value;
     });
     btn_play.text = "PLAY";
+    txt.text = "";
     super.initState();
   }
 
   void _onKeyPressed(String val) {
     setState(() {
       if (_game.evaluateTurn(val)) {
-        entries.add(_game.context.guess.toLowerCase());
-        _game.context.guess = "";
-        txt.text = "";
+        if(txt.text == ""){
+          entries.add(_game.context.guess.toLowerCase());
+          _game.context.guess = "";
+          txt.text = "";
+        }
       } else {
         txt.text = _game.context.guess;
       }
@@ -198,13 +201,15 @@ class _SpellViewState extends State<SynView>
                           ),
                         )),
                     Positioned(
-                      left: 0,
-                      right: 0,
+                      left: 15,
+                      right: 15,
                       bottom: 210,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            width: 300.0,
+                            width: 220.0,
                             child: TextField(
                               controller: txt,
                               keyboardType: TextInputType.none,
@@ -230,10 +235,12 @@ class _SpellViewState extends State<SynView>
                                     _timerController.start();
                                     btn_play.text = "ENTER";
                                   } else {
-                                    entries
-                                        .add(_game.context.guess.toLowerCase());
-                                    _game.context.guess = "";
-                                    txt.text = "";
+                                    if(_game.context.guess != ""){
+                                      entries
+                                          .add(_game.context.guess.toLowerCase());
+                                      _game.context.guess = "";
+                                      txt.text = "";
+                                    }
                                   }
                                 });
                               },
@@ -330,20 +337,24 @@ class _SpellViewState extends State<SynView>
         }
       }
     }
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return CustomDialogBox(
-            title: "Game Over",
-            descriptions: "You lost, do you want to try again?",
-            text: "Yes",
-            text2: "No",
-            img:
-            Image(image: AssetImage('assets/spell_background.png')),
-            points: points,
-          );
-        });
+    _game.updateAfterSuccessfulGuess(entries).then((_) => setState(() {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              title: "Time Up",
+              descriptions: "You made ${_game.context.aciertos} of ${_game.context.answer.syn.length}",
+              text: "Yes",
+              text2: "No",
+              img:
+              Image(image: AssetImage('assets/spell_background.png')),
+              points: points,
+            );
+          });
+    }));
+
+
     print(_game.context.aciertos);
     print("timer has ended");
   }

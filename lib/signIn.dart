@@ -183,15 +183,17 @@ class _SignInPageState extends State<SignInPage> {
       onTap: () async {
         try {
           final prefs = await SharedPreferences.getInstance();
-          final jsonString = json.encode(LogUser(UserName: _emailController.text,Password: _passwordController.text));
+          final jsonString = json.encode(LogUser(UserName: _emailController.text,Password: _passwordController.text, img: ""));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
           final response = await http.post(Uri.parse("https://t1edtq.deta.dev/login"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
             print("Conexion no establecida, error en la conexion");
           });
           if(response.statusCode == 200){
             print("Conexion Establecida");
+            Map<String, dynamic> body = jsonDecode(response.body);
             await prefs.setString('userName', _emailController.text);
-            // await prefs.setString('mail', _emailController.text);
+            await prefs.setString('avatar', body["img"]);
+            await prefs.setString('mail', body["mail"]);
             await prefs.setString('password', _passwordController.text);
           }
           setState(() {
@@ -202,6 +204,7 @@ class _SignInPageState extends State<SignInPage> {
               MaterialPageRoute(builder: (builder) => const MyApp()),
                   (route) => false);
         } catch (e) {
+          print(e.toString());
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
           setState(() {

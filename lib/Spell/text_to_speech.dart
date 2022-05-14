@@ -5,6 +5,7 @@ import 'package:MindOfWords/Spell/dialog_howTo.dart';
 import 'package:MindOfWords/Spell/dialog_spell.dart';
 import 'package:MindOfWords/Spell/how_to.dart';
 import 'package:MindOfWords/Spell/widgets/keyboard.dart';
+import 'package:MindOfWords/Spell/widgets/stats.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 import '../HttpService.dart';
 import 'Spellgame.dart';
+import 'constants.dart';
 
 class SpellApp extends StatelessWidget {
   const SpellApp({Key? key}) : super(key: key);
@@ -90,7 +92,6 @@ class text_to_speech extends State<SpellView> {
     print(_newVoiceText);
     return _newVoiceText;
   }
-
 
   @override
   initState() {
@@ -198,32 +199,37 @@ class text_to_speech extends State<SpellView> {
 
   Future _check() async {
     if (txt.text == _newVoiceText) {
-      setState(() {
-        points++;
-        getWordForAudio();
-      });
-
+      _game.updateAfterSuccessfulGuess(txt.text).then((_) => setState(() {
+            points++;
+            txt.text = "";
+            getWordForAudio();
+          }));
+      // print(_game.context.guess);
+      // setState(() {
+      //   points++;
+      //   getWordForAudio();
+      // });
       print(points);
     } else {
       setState(() {
         _healts = _healts - 1;
         if (_healts == 0) {
-          setState(() {
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return CustomDialogBox(
-                    title: "Game Over",
-                    descriptions: "You lost, do you want to try again?",
-                    text: "Yes",
-                    text2: "No",
-                    img:
-                        Image(image: AssetImage('assets/spell_background.png')),
-                    points: points,
-                  );
-                });
-          });
+          _game.updateAfterSuccessfulGuess(txt.text).then((_) => setState(() {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                        title: "Game Over",
+                        descriptions: "You lost, do you want to try again?",
+                        text: "Yes",
+                        text2: "No",
+                        img: Image(
+                            image: AssetImage('assets/spell_background.png')),
+                        points: points,
+                      );
+                    });
+              }));
         }
       });
     }
@@ -335,7 +341,7 @@ class text_to_speech extends State<SpellView> {
                     Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16.0),
                         child: GestureDetector(
-                          // onTap: () => _openStats(),
+                          onTap: () => _openStats(),
                           child: const Icon(
                             Icons.leaderboard,
                             size: 26.0,
@@ -626,6 +632,19 @@ class text_to_speech extends State<SpellView> {
 
   _openStats() {
     setState(() {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return Container(
+                padding: EdgeInsets.only(
+                    left: Constants.padding,
+                    top: Constants.avatarRadius + Constants.padding,
+                    right: Constants.padding,
+                    bottom: Constants.padding),
+                child: StatsWidget(_game.stats, _closeStats, _newGame));
+          });
+
       _showStats = true;
     });
   }
@@ -633,6 +652,12 @@ class text_to_speech extends State<SpellView> {
   _openSettings() {
     setState(() {
       _showSettings = true;
+    });
+  }
+
+  void _newGame() {
+    setState(() {
+      _game.init();
     });
   }
 }

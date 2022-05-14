@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:MindOfWords/Spell/constants.dart';
 import 'package:MindOfWords/Spell/text_to_speech.dart';
+import 'package:MindOfWords/Synonyms/synonym.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -85,7 +86,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                           Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => SpellApp(),
+                                pageBuilder: (context, animation1, animation2) => SynApp(),
                                 transitionDuration: Duration.zero,
                                 reverseTransitionDuration: Duration.zero,
                               ));

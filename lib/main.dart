@@ -2,7 +2,6 @@ import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Synonyms/synonym.dart';
 import 'package:MindOfWords/profile.dart';
 import 'package:MindOfWords/signIn.dart';
-import 'package:MindOfWords/spell.dart';
 import 'package:MindOfWords/Wordle/wordle.dart';
 import 'package:MindOfWords/Spell/text_to_speech.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _hasUser = false;
   bool _showHelp = false;
   bool _showSettings = false;
+  String? avatar = "";
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<bool> _initialized = Future<bool>.value(false);
   @override
@@ -56,9 +56,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<bool> _getUser() async {
     final SharedPreferences prefs = await _prefs;
     final String? username = prefs.getString('userName');
+    final String? ava = await prefs.getString('avatar');
     bool a = false;
     if(username != null){
       a = true;
+    }
+    if(ava != null){
+      avatar = ava;
     }
     return a;
   }
@@ -381,7 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _Logged_in() => PopupMenuButton(
     // add icon, by default "3 dot" icon
-    // icon: Icon(Icons.book)
+     icon: Image.asset(avatar!),
       itemBuilder: (context) {
         return [
           PopupMenuItem<int>(

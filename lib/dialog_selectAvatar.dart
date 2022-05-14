@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:http/http.dart' as http;
 import 'package:MindOfWords/Spell/constants.dart';
 import 'package:MindOfWords/Spell/text_to_speech.dart';
 import 'package:MindOfWords/profile.dart';
@@ -145,6 +148,15 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                           }
                           final prefs = await SharedPreferences.getInstance();
                           await prefs.setString('avatar', _image.text);
+                          final jsonString = json.encode({"userName":await prefs.getString('userName') ,"img": _image.text});
+                          final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+                          final response = await http
+                              .post(Uri.parse("https://t1edtq.deta.dev/setimage"),
+                              headers: headers, body: jsonString)
+                              .timeout(const Duration(seconds: 5))
+                              .catchError((onError) {
+                            print("Conexion no establecida, error en la conexion");
+                          });
                           Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
