@@ -5,7 +5,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dialog_selectAvatar.dart';
+class ProfileApp extends StatelessWidget {
+  const ProfileApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
+      home: const ProfilePage(),
+    );
+  }
+}
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -26,17 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black87,
-        appBar: AppBar(
-          backgroundColor: Colors.black87,
-          title: Text(
-            "Profile",
-            style: TextStyle(
-              color: Colors.purple,
-            ),
-          ),
-          centerTitle: true,
-        ),
+        backgroundColor: Colors.grey,
         body: SafeArea(
             child: Container(
           width: MediaQuery.of(context).size.width,
@@ -46,6 +51,18 @@ class _ProfilePageState extends State<ProfilePage> {
               CircleAvatar(
                 radius: 60,
                 backgroundImage: getImage(pathimage),
+              ), IconButton(
+                onPressed: () async {
+                  _avatarPicker();
+                  setState(() {
+                    // image = image;
+                  });
+                },
+                icon: Icon(
+                  Icons.add_a_photo,
+                  color: Colors.tealAccent,
+                  size: 30,
+                ),
               ),
               SizedBox(
                 height: 30,
@@ -53,46 +70,12 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  button("Save image"),
-                  IconButton(
-                    onPressed: () async {
-                      _avatarPicker();
-                      setState(() {
-                        // image = image;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.add_a_photo,
-                      color: Colors.tealAccent,
-                      size: 30,
-                    ),
-                  ),
+
+
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.40,
-              ),
-              Text(
-                "Exit App",
-                style: TextStyle(color: Colors.purple, fontSize: 25),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (builder) => const SignUpPage()));
-                  },
-                  icon: Center(
-                    child: Icon(
-                      Icons.exit_to_app,
-                      color: Colors.purple,
-                      size: 40,
-                    ),
-                  )),
+
+
             ],
           ),
         )));
@@ -135,25 +118,5 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Widget button(String name) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        height: 50,
-        width: MediaQuery.of(context).size.width / 2,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: const LinearGradient(colors: [
-            Color(0xff8a32f1),
-            Color(0xffad32f9),
-          ]),
-        ),
-        child: Center(
-            child: Text(
-          name,
-          style: const TextStyle(color: Colors.white),
-        )),
-      ),
-    );
-  }
+
 }
