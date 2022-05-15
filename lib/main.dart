@@ -409,6 +409,7 @@ class _MyHomePageState extends State<MyHomePage> {
       await prefs.remove('userName');
       await prefs.remove('mail');
       await prefs.remove('password');
+      await prefs.remove('avatar');
       Navigator.push(
           context,
           MaterialPageRoute(
