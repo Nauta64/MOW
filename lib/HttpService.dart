@@ -4,9 +4,9 @@ import 'package:http/http.dart';
 import 'package:MindOfWords/Wordle/Models/Word.dart';
 
 class HttpService {
-  final String postsURL = "https://t1edtq.deta.dev/get5Word";
+  final String postsURL = "https://mowapi.herokuapp.com/get5Word";
   // final String postsSynonyms = "http://172.16.24.4:5000/getSynonym";
-  final String postsSynonyms = "https://t1edtq.deta.dev/getSynonym";
+  final String postsSynonyms = "https://mowapi.herokuapp.com/getSynonym";
 
   Future<String> getPosts() async {
     Response res = await get(Uri.parse(postsURL));
