@@ -4,7 +4,6 @@ import 'package:MindOfWords/Wordle/domain.dart';
 import 'package:MindOfWords/Wordle/services/context_service.dart';
 import 'package:MindOfWords/Wordle/services/keyboard_service.dart';
 import 'package:MindOfWords/Wordle/services/matching_service.dart';
-import 'package:MindOfWords/Wordle/services/settings_service.dart';
 import 'package:MindOfWords/Wordle/services/stats_service.dart';
 import 'package:MindOfWords/Wordle/services/word_service.dart';
 
@@ -23,7 +22,6 @@ class Wordle {
 
   late Context _context;
   late Stats _stats;
-  late Settings _settings;
   late final List<GlobalKey<AnimatorWidgetState>> _shakeKeys = [];
   late final List<GlobalKey<AnimatorWidgetState>> _bounceKeys = [];
 
@@ -32,7 +30,6 @@ class Wordle {
   bool isEvaluating = false;
 
   Stats get stats => _stats;
-  Settings get settings => _settings;
   int get _gameNumber => DateTime.now().difference(_baseDate).inDays;
 
   void updateBoard(List<Letter> attempt) {
@@ -73,26 +70,20 @@ class Wordle {
       _bounceKeys.add(GlobalKey<AnimatorWidgetState>());
     }
 
-    var context = await ContextService().loadContext();
     _stats = await _statsService.loadStats();
-    _settings = await SettingsService().load();
-
+    await _initContext();
     await _wordService.init();
-    if (context == null) {
-      _initContext();
-    } else {
-        _initContext();
-    }
+
+
     return true;
   }
 
-  void _initContext() {
+  Future<void> _initContext() async {
     var board = Board(List.filled(boardSize, Letter(0, '', GameColor.unset), growable: false));
-    _context = Context(board, KeyboardService.init().keys, '', '', [], TurnResult.unset, totalTries,
-        'Good Luck!', 0, DateTime.now());
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      _context.answer = await _wordService.getWordOfTheDay();
-    });
+    String s = await _wordService.getWordOfTheDay();
+    _context = Context(board, KeyboardService.init().keys, s, '', [], TurnResult.unset, totalTries,
+        'Good Luck!', 0);
+
 
   }
 
@@ -196,7 +187,7 @@ class Wordle {
           : remaining == 0
           ? 'Sorry, you lost'
           : '';
-      persist();
+
     }
   }
   void reloadGame(){
@@ -205,10 +196,4 @@ class Wordle {
     init();
   }
 
-  void persist() {
-    Future.delayed(Duration.zero, () async {
-      await ContextService().saveContext(_context);
-
-    });
-  }
 }

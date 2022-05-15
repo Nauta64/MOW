@@ -76,10 +76,9 @@ class Context {
   int remainingTries;
   String message;
   int currentIndex;
-  DateTime? lastPlayed;
 
   Context(this.board, this.keys, this.answer, this.guess, this.attempt, this.turnResult,
-      this.remainingTries, this.message, this.currentIndex, this.lastPlayed);
+      this.remainingTries, this.message, this.currentIndex);
 
   factory Context.fromJson(Map<String, dynamic> json) {
     var isPrevious = json['board'] is List;
@@ -116,7 +115,7 @@ class Context {
     DateTime? lastPlayed = json['lastPlayed'] != null ? DateTime.parse(json['lastPlayed']) : null;
 
     return Context(board, keys, answer, guess, attempt, turnResult, remainingTries, message,
-        currentIndex, lastPlayed);
+        currentIndex, );
   }
 
   Map<String, dynamic> toJson() {
@@ -130,7 +129,6 @@ class Context {
     data['remainingTries'] = remainingTries;
     data['message'] = message;
     data['currentIndex'] = currentIndex;
-    data['lastPlayed'] = (lastPlayed ?? DateTime.now()).toIso8601String();
     return data;
   }
 }

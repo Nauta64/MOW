@@ -69,14 +69,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
 
-    widget.streamController.stream.listen((settings) {
-      if (_game.settings.isDarkMode != settings.isDarkMode) {
-        _game.settings.isDarkMode = settings.isDarkMode;
-      }
-    });
-
     _initialized = _game.init().then((value) {
-      widget.streamController.add(_game.settings);
+
       return value;
     });
   }
@@ -240,11 +234,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                         child: StatsWidget(_game.stats, _closeStats, _newGame))
                                   ],
                                   if (_showSettings) ...[
-                                    Positioned(
-                                        top: 50,
-                                        left: 0,
-                                        child: SettingsWidget(_closeSettings,
-                                            widget.streamController, _game.settings))
+                                    // Positioned(
+                                    //     top: 50,
+                                    //     left: 0,
+                                    //     child: SettingsWidget(_closeSettings,
+                                    //         widget.streamController, _game.settings)
+                                    // )
                                   ]
                                 ])))),
                   ])),

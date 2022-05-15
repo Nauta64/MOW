@@ -235,9 +235,9 @@ class _SpellViewState extends State<SynView>
                                     _timerController.start();
                                     btn_play.text = "ENTER";
                                   } else {
-                                    if(_game.context.guess != ""){
+                                    if(txt.text != ""){
                                       entries
-                                          .add(_game.context.guess.toLowerCase());
+                                          .add(txt.text);
                                       _game.context.guess = "";
                                       txt.text = "";
                                     }
