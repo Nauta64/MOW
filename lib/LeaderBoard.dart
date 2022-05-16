@@ -13,78 +13,113 @@ class LeaderBoardApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter App Learning',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.grey,
         ),
-        home: LeaderBoardView()
-    );
+        home: LeaderBoardView());
   }
 }
 
 class LeaderBoardView extends StatefulWidget {
   LeaderBoardView({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<LeaderBoardView> {
-  late List<RankingW> r ;
+  late List<RankingW> r;
+
+  Future<bool> _initialized = Future<bool>.value(false);
+
   @override
-  void initState()  {
+  void initState() {
     // initialize timercontroller
-    init();
+    _initialized = init().then((value) {
+      print("initialized");
+      return value;
+    });
     super.initState();
   }
 
   Future<bool> init() async {
-      r = await getRanking();
-
+    r = await getRanking();
     return true;
   }
+
   Future<List<RankingW>> getRanking() async {
-    Response res = await get(Uri.parse("http://192.168.0.134:5000/getrankingWordle"));
+    Response res =
+        await get(Uri.parse("https://mowapi.herokuapp.com/getrankingWordle"));
 
     if (res.statusCode == 200) {
       List<RankingW> rank = List<RankingW>.empty(growable: true);
       int count = 0;
+      print(res.body);
       Map<String, dynamic> body = jsonDecode(res.body);
-      for (int i = 0; i < 50; i++) {
+      for (int i = 0; i < body.keys.length; i++) {
         print(body["$i"]);
         rank.add(RankingW.fromJson(body["$i"]));
       }
-      return rank;
 
-      //
-      // for (var i in body){
-      //   rank.add(RankingW.fromJson(body[count]));
-      //   count+=1;
-      // // }
-      // r = ListRanking(rank: rank);
-      // return ListRanking.fromJson((jsonDecode(res.body)["statWordle"] as List).map((e) => e as Map<String, dynamic>)?.toList());
+      r = rank;
+      return rank;
     } else {
       throw "Unable to retrieve posts.";
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Flutter ListView"),
-        ),
-        body: ListView.builder(
-          itemBuilder: (BuildContext, index){
-            return Card(
-              child: ListTile(
-                leading: CircleAvatar(backgroundImage: AssetImage(r[index].img),),
-                title: Text(r[index].UserName),
-                subtitle: Text("This is subtitle"),
+    return FutureBuilder(
+        future: _initialized,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          List<Widget> children = [];
+          if (snapshot.hasData) {
+            children = [
+              Scaffold(
+                  appBar: AppBar(
+                    title: Text("Ranking Wordle"),
+                  ),
+                  body: ListView.builder(
+                    itemBuilder: (BuildContext, index) {
+                      return Card(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage(r[index].img),
+                          ),
+                          title: Text("${index+1}   ${r[index].UserName}"),
+                          trailing: Column(children: [
+                            Text("Won: ${r[index].StatW.won}"),
+                            Padding(padding: EdgeInsets.only(top: 5)),
+                            Text("Max Streak: ${r[index].StatW.streak.max}"),
+                          ],),
+                        ),
+                      );
+                    },
+                    itemCount: r.length,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(5),
+                    scrollDirection: Axis.vertical,
+                  ))
+            ];
+          } else {
+            children = [
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    Text("Loading...",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary,
+                        )),
+                  ],
+                ),
               ),
-            );
-          },
-          itemCount: r.length,
-          shrinkWrap: true,
-          padding: EdgeInsets.all(5),
-          scrollDirection: Axis.vertical,
-        )
-    );
+            ];
+          }
+          return Stack(children: children);
+        });
   }
 }
