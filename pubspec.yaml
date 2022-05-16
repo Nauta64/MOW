@@ -41,7 +41,7 @@ dependencies:
   path_provider: ^2.0.9
   http: ^0.13.3
   flutter_rating_bar: ^4.0.0
-  page_transition: ^1.0.9
+  page_transition: ^2.0.5
   trotter: ^0.9.1
   shared_preferences: ^2.0.15
   rxdart: ^0.21.0
@@ -51,6 +51,7 @@ dependencies:
   flutter_tts: ^3.3.3
   speech_to_text: ^5.4.3
   image_picker: ^0.8.5+2
+
 
 
 dev_dependencies:

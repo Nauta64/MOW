@@ -4,12 +4,14 @@ import 'package:MindOfWords/Synonyms/dialog_syn.dart';
 import 'package:MindOfWords/Synonyms/syngame.dart';
 import 'package:MindOfWords/Synonyms/widgets/stats.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:simple_timer/simple_timer.dart';
 import 'package:quiver/collection.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../Spell/constants.dart';
 import '../Synonyms/widgets/keyboard.dart';
+import '../main.dart';
 
 class SynApp extends StatelessWidget {
   const SynApp({Key? key}) : super(key: key);
@@ -98,9 +100,11 @@ class _SpellViewState extends State<SynView>
                     leading: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 20.0),
                         child: GestureDetector(
-                          onTap: () => _openHelp(),
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                          },
                           child: const Icon(
-                            Icons.help_outline,
+                            Icons.west,
                             size: 26.0,
                           ),
                         )),
@@ -119,9 +123,9 @@ class _SpellViewState extends State<SynView>
                       Padding(
                           padding: const EdgeInsets.only(right: 20.0),
                           child: GestureDetector(
-                            // onTap: () => _openSettings(),
+                            onTap: () => _openHelp(),
                             child: const Icon(
-                              Icons.settings,
+                              Icons.help_outline,
                               size: 26.0,
                             ),
                           )),
@@ -280,9 +284,11 @@ class _SpellViewState extends State<SynView>
                   ])),
             ];
           } else {
+
             children = [
               Center(
                   child: Column(
+
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       CircularProgressIndicator(

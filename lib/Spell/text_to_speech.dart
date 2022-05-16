@@ -8,10 +8,13 @@ import 'package:MindOfWords/Spell/widgets/stats.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../HttpService.dart';
+import '../main.dart';
 import 'Spellgame.dart';
 import 'constants.dart';
 
@@ -325,17 +328,15 @@ class text_to_speech extends State<SpellView> {
           if (snapshot.hasData) {
             children = [
               Scaffold(
-                // appBar: AppBar(
-                //   title: Text('Text to Speech'),
-                // ),
-
                 appBar: AppBar(
                   leading: Padding(
                       padding: const EdgeInsets.only(left: 16, right: 20.0),
                       child: GestureDetector(
-                        onTap: () => _openHelp(),
+                        onTap: () {
+                          Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                        },
                         child: const Icon(
-                          Icons.help_outline,
+                          Icons.west,
                           size: 26.0,
                         ),
                       )),
@@ -354,9 +355,9 @@ class text_to_speech extends State<SpellView> {
                     Padding(
                         padding: const EdgeInsets.only(right: 20.0),
                         child: GestureDetector(
-                          // onTap: () => _openSettings(),
+                          onTap: () => _openHelp(),
                           child: const Icon(
-                            Icons.settings,
+                            Icons.help_outline,
                             size: 26.0,
                           ),
                         )),
