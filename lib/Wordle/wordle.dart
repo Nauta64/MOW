@@ -9,6 +9,9 @@ import 'package:MindOfWords/Wordle/widgets/how_to.dart';
 import 'package:MindOfWords/Wordle/widgets/keyboard.dart';
 import 'package:MindOfWords/Wordle/widgets/settings.dart';
 import 'package:MindOfWords/Wordle/widgets/stats.dart';
+import 'package:page_transition/page_transition.dart';
+
+import '../main.dart';
 
 
 
@@ -169,9 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     leading: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 20.0),
                         child: GestureDetector(
-                          onTap: () => _openHelp(),
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                          },
                           child: const Icon(
-                            Icons.help_outline,
+                            Icons.west,
                             size: 26.0,
                           ),
                         )),
@@ -190,9 +195,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       Padding(
                           padding: const EdgeInsets.only(right: 20.0),
                           child: GestureDetector(
-                            onTap: () => _openSettings(),
+                            onTap: () => _openHelp(),
                             child: const Icon(
-                              Icons.settings,
+                              Icons.help_outline,
                               size: 26.0,
                             ),
                           )),
