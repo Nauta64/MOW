@@ -47,23 +47,32 @@ class _CustomDialogBoxState extends State<CustomDialogHowTo> {
                 ),
               ]
           ),
+
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+
             children: <Widget>[
-              Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              Align(
+                  alignment: Alignment.center,
+                  child: Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600), textAlign: TextAlign.center)
+              ),
+
               SizedBox(height: 15,),
-              Text("The game starts with 3 lives.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("A button, speaker, that spells the word.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("We will have a score that as we hit the word we will add a point.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("Instructions:",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("We have three lives, each mistake we make will lose 1 life and when we lose all (0) we will lose.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("By pressing the button like the one above, spell the word, we can press it as many times as we want.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              Text("Description:",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
+              Text("· The game tries that in a certain time (1 minute).",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              Text("· You have to say all the possible synonyms of the word that will be shown next to the timer and once the time is up you will know the result.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
               SizedBox(height: 22,),
-              Text("Points: ${widget.points}"),
+              Text("Instructions:",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
+              Text("1. We hit the play button.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              Text("2. We write a word and press send so that the word is saved in the list.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              Text("3. We will have to write all the possible synonyms before the time runs out.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              Text("4. Once the time is up, the result will be displayed.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              SizedBox(height: 22,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
@@ -72,29 +81,6 @@ class _CustomDialogBoxState extends State<CustomDialogHowTo> {
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
                           }
-                          //===== TANCAR SPELL =======
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Text(widget.text2,style: TextStyle(fontSize: 18),)),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FlatButton(
-                        onPressed: (){
-                          //===== TANCAR DIALOG =======
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                          //====== REINICIAR VIEW =====
-                          Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => SpellApp(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ));
                         },
                         child: Text(widget.text,style: TextStyle(fontSize: 18),)),
                   ),

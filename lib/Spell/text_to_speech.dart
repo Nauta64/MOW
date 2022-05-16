@@ -75,6 +75,7 @@ class text_to_speech extends State<SpellView> {
   bool get isIOS => !kIsWeb && Platform.isIOS;
 
   bool get isAndroid => !kIsWeb && Platform.isAndroid;
+  bool get isWindows => !kIsWeb && Platform.isWindows;
 
   bool get isWeb => kIsWeb;
 
