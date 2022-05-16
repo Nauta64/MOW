@@ -16,7 +16,7 @@ class Keyboard extends StatelessWidget {
       case GameColor.none:
         return const Color.fromARGB(255, 90, 87, 87);
       case GameColor.unset:
-        return const Color.fromARGB(255, 151, 151, 151);
+        return const Color.fromARGB(255,255,255,255);
     }
   }
 
@@ -30,7 +30,7 @@ class Keyboard extends StatelessWidget {
           decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
-                color: Colors.grey.shade800,
+                color:  Colors.grey.shade900,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(4)),
               color: _toColor(color)),
@@ -43,7 +43,7 @@ class Keyboard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: letter.length > 1 ? 10 : 18, 
-                  color: color != GameColor.unset ? Colors.white : null),
+                  color: color != GameColor.unset ? Colors.white : Colors.grey.shade900),
               )),
         ),
       ),

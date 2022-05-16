@@ -1,3 +1,4 @@
+import 'package:MindOfWords/LeaderBoard.dart';
 import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Synonyms/synonym.dart';
 import 'package:MindOfWords/profile.dart';
@@ -402,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (builder) => const ProfileApp()));
+              builder: (builder) => LeaderBoardApp()));
     } else if (value == 1) {
       final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final prefs = await SharedPreferences.getInstance();

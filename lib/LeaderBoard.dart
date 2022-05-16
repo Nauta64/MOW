@@ -1,205 +1,90 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class LeaderBoard extends StatefulWidget {
+import 'package:MindOfWords/Models/lrankingw.dart';
+import 'package:MindOfWords/Models/rankingW.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'HttpService.dart';
+
+class LeaderBoardApp extends StatelessWidget {
   @override
-  _LeaderBoardState createState() => _LeaderBoardState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Flutter App Learning',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: LeaderBoardView()
+    );
+  }
 }
 
-class _LeaderBoardState extends State<LeaderBoard> {
+class LeaderBoardView extends StatefulWidget {
+  LeaderBoardView({Key? key}) : super(key: key);
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-  int i = 0;
-  Color my = Colors.brown, CheckMyColor = Colors.white;
-  void getStats(){
+class _MyHomePageState extends State<LeaderBoardView> {
+  late List<RankingW> r ;
+  @override
+  void initState()  {
+    // initialize timercontroller
+    init();
+    super.initState();
+  }
 
+  Future<bool> init() async {
+      r = await getRanking();
+
+    return true;
+  }
+  Future<List<RankingW>> getRanking() async {
+    Response res = await get(Uri.parse("http://192.168.0.134:5000/getrankingWordle"));
+
+    if (res.statusCode == 200) {
+      List<RankingW> rank = List<RankingW>.empty(growable: true);
+      int count = 0;
+      Map<String, dynamic> body = jsonDecode(res.body);
+      for (int i = 0; i < 50; i++) {
+        print(body["$i"]);
+        rank.add(RankingW.fromJson(body["$i"]));
+      }
+      return rank;
+
+      //
+      // for (var i in body){
+      //   rank.add(RankingW.fromJson(body[count]));
+      //   count+=1;
+      // // }
+      // r = ListRanking(rank: rank);
+      // return ListRanking.fromJson((jsonDecode(res.body)["statWordle"] as List).map((e) => e as Map<String, dynamic>)?.toList());
+    } else {
+      throw "Unable to retrieve posts.";
+    }
   }
   @override
   Widget build(BuildContext context) {
-    var r = TextStyle(color: Colors.purpleAccent, fontSize: 34);
-    return Stack(
-      children: <Widget>[
-        Scaffold(
-            body: Container(
-              margin: EdgeInsets.only(top: 65.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 15.0, top: 10.0),
-                    child: RichText(
-                        text: TextSpan(
-                            text: "Leader",
-                            style: TextStyle(
-                                color: Colors.deepPurple,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold),
-                            children: [
-                              TextSpan(
-                                  text: " Board",
-                                  style: TextStyle(
-                                      color: Colors.pink,
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.bold))
-                            ])),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(left: 15.0),
-                    child: Text(
-                      'Global Rank Board: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Flexible(
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: getStats(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              i = 0;
-                              return ListView.builder(
-                                  itemCount: snapshot.data.documents.length,
-                                  itemBuilder: (context, index) {
-                                    print(index);
-                                    if (index >= 1) {
-                                      print('Greater than 1');
-                                      if (snapshot.data.documents[index]
-                                          .data['MyPoints'] ==
-                                          snapshot.data.documents[index - 1]
-                                              .data['MyPoints']) {
-                                        print('Same');
-                                      } else {
-                                        i++;
-                                      }
-                                    }
-
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5.0, vertical: 5.0),
-                                      child: InkWell(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: i == 0
-                                                      ? Colors.amber
-                                                      : i == 1
-                                                      ? Colors.grey
-                                                      : i == 2
-                                                      ? Colors.brown
-                                                      : Colors.white,
-                                                  width: 3.0,
-                                                  style: BorderStyle.solid),
-                                              borderRadius:
-                                              BorderRadius.circular(5.0)),
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 10.0, left: 15.0),
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        CircleAvatar(
-                                                            child: Container(
-                                                                decoration: BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(snapshot
-                                                                            .data
-                                                                            .documents[
-                                                                        index]
-                                                                            .data[
-                                                                        'photoUrl']),
-                                                                        fit: BoxFit
-                                                                            .fill)))),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 20.0, top: 10.0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                      children: <Widget>[
-                                                        Container(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              snapshot
-                                                                  .data
-                                                                  .documents[index]
-                                                                  .data['Name'],
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .deepPurple,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                              maxLines: 6,
-                                                            )),
-                                                        Text("Points: " +
-                                                            snapshot
-                                                                .data
-                                                                .documents[index]
-                                                                .data['MyPoints']
-                                                                .toString()),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Flexible(child: Container()),
-                                                  i == 0
-                                                      ? Text("🥇", style: r)
-                                                      : i == 1
-                                                      ? Text(
-                                                    "🥈",
-                                                    style: r,
-                                                  )
-                                                      : i == 2
-                                                      ? Text(
-                                                    "🥉",
-                                                    style: r,
-                                                  )
-                                                      : Text(''),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 20.0,
-                                                        top: 13.0,
-                                                        right: 20.0),
-                                                    child: RaisedButton(
-                                                      onPressed: () {
-                                                      },
-                                                      child: Text(
-                                                        "Challenge",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                            FontWeight.bold),
-                                                      ),
-                                                      color: Colors.deepPurple,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          }))
-                ],
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Flutter ListView"),
+        ),
+        body: ListView.builder(
+          itemBuilder: (BuildContext, index){
+            return Card(
+              child: ListTile(
+                leading: CircleAvatar(backgroundImage: AssetImage(r[index].img),),
+                title: Text(r[index].UserName),
+                subtitle: Text("This is subtitle"),
               ),
-            )),
-      ],
+            );
+          },
+          itemCount: r.length,
+          shrinkWrap: true,
+          padding: EdgeInsets.all(5),
+          scrollDirection: Axis.vertical,
+        )
     );
   }
 }

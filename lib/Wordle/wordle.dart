@@ -20,37 +20,25 @@ class WordleApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<WordleApp> {
-  final StreamController<Settings> _streamController = StreamController.broadcast();
-  ThemeMode _appTheme = ThemeMode.dark;
 
-  @override
-  void initState() {
-    super.initState();
-    _streamController.stream.listen((settings) {
-      setState(() {
-        _appTheme = settings.isDarkMode ? ThemeMode.dark : ThemeMode.light;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mind of Words',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      themeMode: _appTheme,
-      darkTheme: AppTheme.darkTheme,
-      home: MyHomePage(_appTheme, _streamController, title: 'Mind of Words'),
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
+      home: MyHomePage(title: 'Mind of Words'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage(this.themeMode, this.streamController, {Key? key, required this.title})
+  MyHomePage({Key? key, required this.title})
       : super(key: key);
-  final ThemeMode themeMode;
-  final StreamController<Settings> streamController;
+
   final String title;
 
   @override
