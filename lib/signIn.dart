@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:MindOfWords/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:crypt/crypt.dart';
 
 import 'Models/login.dart';
 import 'SignUp.dart';

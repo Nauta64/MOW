@@ -5,7 +5,6 @@ import 'package:MindOfWords/Models/user.dart';
 import 'package:MindOfWords/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:crypt/crypt.dart';
 
 import 'main.dart';
 

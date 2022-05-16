@@ -485,16 +485,31 @@ class text_to_speech extends State<SpellView> {
       ));
 
   Widget _btnSection() {
-    return Container(
-        padding: EdgeInsets.only(top: 20.0),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          _buildButtonColumn(Colors.green, Colors.greenAccent, Icons.play_arrow,
-              'PLAY', _speak),
-          _buildButtonColumn(Colors.blue, Colors.blue,
-              Icons.wifi_protected_setup_outlined, 'CHECK', _check),
-          _buildButtonColumn(
-              Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
-        ]));
+    if (isAndroid) {
+      return Container(
+          padding: EdgeInsets.only(top: 20.0),
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(Colors.blue, Colors.blue,
+                Icons.wifi_protected_setup_outlined, 'CHECK', _check),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+          ]));
+    } else {
+      return Container(
+          padding: EdgeInsets.only(top: 20.0),
+          child:
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            _buildButtonColumn(Colors.green, Colors.greenAccent,
+                Icons.play_arrow, 'PLAY', _speak),
+            _buildButtonColumn(Colors.blue, Colors.blue,
+                Icons.wifi_protected_setup_outlined, 'CHECK', _check),
+            _buildButtonColumn(
+                Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
+          ]));
+    }
   }
 
   Widget _enginesDropDownSection(dynamic engines) => Container(
