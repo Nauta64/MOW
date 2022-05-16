@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'dart:ui';
 import 'package:MindOfWords/Spell/dialog_howTo.dart';
 import 'package:MindOfWords/Spell/dialog_spell.dart';
-import 'package:MindOfWords/Spell/how_to.dart';
 import 'package:MindOfWords/Spell/widgets/keyboard.dart';
 import 'package:MindOfWords/Spell/widgets/stats.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;

@@ -47,23 +47,31 @@ class _CustomDialogBoxState extends State<CustomDialogHowTo> {
                 ),
               ]
           ),
+
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
+
             children: <Widget>[
-              Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              Align(
+              alignment: Alignment.center,
+              child: Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600), textAlign: TextAlign.center)
+              ),
+
               SizedBox(height: 15,),
+              Text("Description:",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
               Text("The game starts with 3 lives.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
               Text("A button, speaker, that spells the word.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
               Text("We will have a score that as we hit the word we will add a point.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("Instructions:",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
-              Text("",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
+              SizedBox(height: 22,),
+              Text("Instructions:",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),textAlign: TextAlign.left,),
               Text("We have three lives, each mistake we make will lose 1 life and when we lose all (0) we will lose.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
               Text("By pressing the button like the one above, spell the word, we can press it as many times as we want.",style: TextStyle(fontSize: 14),textAlign: TextAlign.left,),
               SizedBox(height: 22,),
-              Text("Points: ${widget.points}"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
@@ -72,29 +80,6 @@ class _CustomDialogBoxState extends State<CustomDialogHowTo> {
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
                           }
-                          //===== TANCAR SPELL =======
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: Text(widget.text2,style: TextStyle(fontSize: 18),)),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FlatButton(
-                        onPressed: (){
-                          //===== TANCAR DIALOG =======
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                          //====== REINICIAR VIEW =====
-                          Navigator.pushReplacement(
-                              context,
-                              PageRouteBuilder(
-                                pageBuilder: (context, animation1, animation2) => SpellApp(),
-                                transitionDuration: Duration.zero,
-                                reverseTransitionDuration: Duration.zero,
-                              ));
                         },
                         child: Text(widget.text,style: TextStyle(fontSize: 18),)),
                   ),
