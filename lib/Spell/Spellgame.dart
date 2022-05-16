@@ -91,6 +91,8 @@ class SpellGame {
   }
 
   bool didWin(String guess, String answer) {
+    print("${guess}guess");
+    print("${answer}answer");
     if (guess == answer) {
       return true;
     } else {

@@ -86,6 +86,7 @@ class text_to_speech extends State<SpellView> {
     final HttpService httpService = HttpService();
     String randword = await httpService.getPosts() as String;
     _newVoiceText = randword;
+    _game.context.answer = randword;
     // _newVoiceText = "Roger Roger";
     print(randword);
     print(_newVoiceText);
@@ -198,6 +199,9 @@ class text_to_speech extends State<SpellView> {
 
   Future _check() async {
     if (txt.text == _newVoiceText) {
+      setState(() {
+        _game.context.guess = txt.text;
+      });
       _game.updateAfterSuccessfulGuess(txt.text).then((_) => setState(() {
             points++;
             txt.text = "";

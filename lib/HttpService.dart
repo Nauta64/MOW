@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:MindOfWords/Models/rankingW.dart';
 import 'package:MindOfWords/Synonyms/Models/Synonym.dart';
 import 'package:http/http.dart';
 import 'package:MindOfWords/Wordle/Models/Word.dart';
 
 class HttpService {
   final String postsURL = "https://mowapi.herokuapp.com/get5Word";
+  final String postsRankingW = "https://mowapi.herokuapp.com/getrankingWordle";
   // final String postsSynonyms = "http://172.16.24.4:5000/getSynonym";
   final String postsSynonyms = "https://mowapi.herokuapp.com/getSynonym";
 
@@ -17,6 +19,18 @@ class HttpService {
       print(word);
 
       return word;
+    } else {
+      throw "Unable to retrieve posts.";
+    }
+  }
+
+  Future<RankingW> getRanking() async {
+    Response res = await get(Uri.parse(postsRankingW));
+
+    if (res.statusCode == 200) {
+      Map<String, dynamic> body = jsonDecode(res.body);
+
+      return RankingW.fromJson(body["statWordle"]);
     } else {
       throw "Unable to retrieve posts.";
     }
