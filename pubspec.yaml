@@ -51,6 +51,7 @@ dependencies:
   flutter_tts: ^3.3.3
   speech_to_text: ^5.4.3
   image_picker: ^0.8.5+2
+  crypt: ^4.2.1
 
 
 dev_dependencies:

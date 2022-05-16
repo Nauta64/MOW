@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:MindOfWords/main.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:crypt/crypt.dart';
 
 import 'Models/login.dart';
 import 'SignUp.dart';
@@ -183,6 +184,7 @@ class _SignInPageState extends State<SignInPage> {
       onTap: () async {
         try {
           final prefs = await SharedPreferences.getInstance();
+
           final jsonString = json.encode(LogUser(UserName: _emailController.text,Password: _passwordController.text, img: ""));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
           final response = await http.post(Uri.parse("https://mowapi.herokuapp.com/login"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
@@ -194,7 +196,6 @@ class _SignInPageState extends State<SignInPage> {
             await prefs.setString('userName', _emailController.text);
             await prefs.setString('avatar', body["img"]);
             await prefs.setString('mail', body["mail"]);
-            await prefs.setString('password', _passwordController.text);
           }
           setState(() {
             circular = false;

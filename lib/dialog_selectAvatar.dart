@@ -70,7 +70,10 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
-      child: contentBox(context),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [contentBox(context)],
+      ),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:MindOfWords/Models/user.dart';
 import 'package:MindOfWords/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:crypt/crypt.dart';
 
 import 'main.dart';
 
@@ -206,7 +207,6 @@ class _SignUpPageState extends State<SignUpPage> {
             print("Conexion Establecida");
             await prefs.setString('userName', _nameController.text);
             await prefs.setString('mail', _emailController.text);
-            await prefs.setString('password', _passwordController.text);
           }
 
           // firebase_auth.UserCredential userCredential =

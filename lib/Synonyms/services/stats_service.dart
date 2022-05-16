@@ -15,7 +15,11 @@ class SynStatsService {
 
   Future<SynStats> loadStats() async {
     final prefs = await SharedPreferences.getInstance();
-    final jsonString = json.encode({"userName": prefs.getString('userName')});
+    String? usr = prefs.getString('userName');
+    if(usr == null){
+      usr = "null";
+    }
+    final jsonString = json.encode({"userName": usr});
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
     final response = await http
         .post(Uri.parse("https://mowapi.herokuapp.com/getStatsSyn"),
