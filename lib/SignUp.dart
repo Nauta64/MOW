@@ -196,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> {
         });
         try {
           final prefs = await SharedPreferences.getInstance();
-          final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text));
+          final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text, img: "assets/avatars/cerdo.png"));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
           final response = await http.post(Uri.parse("https://mowapi.herokuapp.com/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
             print("Conexion no establecida, error en la conexion");
@@ -206,6 +206,7 @@ class _SignUpPageState extends State<SignUpPage> {
             print("Conexion Establecida");
             await prefs.setString('userName', _nameController.text);
             await prefs.setString('mail', _emailController.text);
+            await prefs.setString('avatar',"assets/avatars/cerdo.png");
           }
 
           // firebase_auth.UserCredential userCredential =
