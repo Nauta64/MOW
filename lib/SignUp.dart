@@ -239,7 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
           }else{
             final prefs = await SharedPreferences.getInstance();
             final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text, img: "assets/avatars/cerdo.png"));
-            final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
+            final headers = {HttpHeaders.contentTypeHeader: 'application/json', "Access-Control-Allow-Origin": "*"};
             final response = await http.post(Uri.parse("https://mowapi.herokuapp.com/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
               print("Conexion no establecida, error en la conexion");
             });
