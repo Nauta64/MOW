@@ -54,6 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool get isAndroid => !kIsWeb && Platform.isAndroid;
   bool get isWindows => !kIsWeb && Platform.isWindows;
+  bool get isIOS => !kIsWeb && Platform.isIOS;
+  bool get isWeb => !kIsWeb;
 
   // late XFile image;
   @override
@@ -650,7 +652,47 @@ class _ProfilePageState extends State<ProfilePage> {
 
             });
       }
+
+      if(isIOS){
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return CustomDialogSelectAvatar(
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(image: AssetImage('assets/spell_background.png')),
+                  );
+
+            });
+      }
       if(isWindows){
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return Container(
+                  padding: EdgeInsets.only(
+                      left: 1000,
+                      top: 200,
+                      right: 1000,
+                      bottom: 200),
+                  child: CustomDialogSelectAvatar(
+
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(image: AssetImage('assets/spell_background.png')),
+                  )
+              );
+            });
+      }
+      if(isWeb){
         showDialog(
             context: context,
             barrierDismissible: false,
