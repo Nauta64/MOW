@@ -13,11 +13,11 @@ class StatsWidget extends StatefulWidget {
   StatsWidget(this._stats, this._close, this._newGame, {Key? key})
       : super(key: key);
 
-  final Stats _stats;
+  final SpellStats _stats;
   final Function _close;
   final Function _newGame;
 
-  Stats get stats => _stats;
+  SpellStats get stats => _stats;
 
   Function get close => _close;
 

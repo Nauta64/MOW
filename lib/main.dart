@@ -403,7 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (builder) => LeaderBoardApp()));
+              builder: (builder) => ProfileApp()));
     } else if (value == 1) {
       final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final prefs = await SharedPreferences.getInstance();

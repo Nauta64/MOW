@@ -6,13 +6,13 @@ import 'package:flutter/services.dart';
 import 'package:MindOfWords/Spell/domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StatsService {
+class SpellStatsService {
   Future<String> _readAsset(String fileName) async {
     WidgetsFlutterBinding.ensureInitialized();
     return await rootBundle.loadString(fileName);
   }
 
-  Future<Stats> loadStats() async {
+  Future<SpellStats> loadStats() async {
     final prefs = await SharedPreferences.getInstance();
     String? usr = prefs.getString('userName');
     if(usr == null){
@@ -30,14 +30,14 @@ class StatsService {
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
 
-      return Stats.fromJson(body["stat"]);
+      return SpellStats.fromJson(body["stat"]);
     } else {
       throw "Unable to retrieve posts.";
     }
   }
 
-  Future<Stats> updateStats(
-      Stats stats, bool won, int index, int gameNumber) async {
+  Future<SpellStats> updateStats(
+      SpellStats stats, bool won, int index, int gameNumber) async {
     if (won) {
 
       stats.won += 1;
@@ -56,7 +56,7 @@ class StatsService {
     return stats;
   }
 
-  Future<void> saveStats(Stats stats) async {
+  Future<void> saveStats(SpellStats stats) async {
     final prefs = await SharedPreferences.getInstance();
     final jsonString = json.encode({"userName":await prefs.getString('userName') ,"stat": stats});
     final headers = {HttpHeaders.contentTypeHeader: 'application/json'};

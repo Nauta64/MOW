@@ -16,19 +16,19 @@ class SpellGame {
     // reloadGame();
   }
 
-  static StatsService _statsService = StatsService();
+  static SpellStatsService _statsService = SpellStatsService();
 
   final _baseDate = DateTime(2021, DateTime.june, 19);
 
   late SpellContext _context;
 
-  late Stats _stats;
+  late SpellStats _stats;
   late final List<GlobalKey<AnimatorWidgetState>> _shakeKeys = [];
   late final List<GlobalKey<AnimatorWidgetState>> _bounceKeys = [];
 
   bool isEvaluating = false;
 
-  Stats get stats => _stats;
+  SpellStats get stats => _stats;
 
   int get _gameNumber => DateTime.now().difference(_baseDate).inDays;
 
@@ -57,7 +57,7 @@ class SpellGame {
     return true;
   }
 
-  Future<Stats> _updateStats(bool won, int remainingTries) async {
+  Future<SpellStats> _updateStats(bool won, int remainingTries) async {
     return await _statsService.updateStats(
         _stats, won, (remainingTries - totalTries).abs(), _gameNumber);
   }
@@ -101,7 +101,7 @@ class SpellGame {
   }
 
   void reloadGame() {
-    _statsService = StatsService();
+    _statsService = SpellStatsService();
     init();
   }
 }

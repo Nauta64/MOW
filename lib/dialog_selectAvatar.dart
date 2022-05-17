@@ -154,7 +154,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                           final jsonString = json.encode({"userName":await prefs.getString('userName') ,"img": _image.text});
                           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
                           final response = await http
-                              .post(Uri.parse("https://t1edtq.deta.dev/setimage"),
+                              .post(Uri.parse("https://mowapi.herokuapp.com/setimage"),
                               headers: headers, body: jsonString)
                               .timeout(const Duration(seconds: 5))
                               .catchError((onError) {

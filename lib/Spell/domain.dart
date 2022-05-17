@@ -73,14 +73,14 @@ class SpellContext {
     return data;
   }
 }
-class Stats {
+class SpellStats {
   int won;
   int lost;
   Streak streak;
 
-  Stats(this.won, this.lost, this.streak);
+  SpellStats(this.won, this.lost, this.streak);
 
-  Stats.fromJson(Map<String, dynamic> json)
+  SpellStats.fromJson(Map<String, dynamic> json)
       : won = json['won'],
         lost = json['lost'],
         streak = json['streak'] = Streak.fromJson(json['streak']);
