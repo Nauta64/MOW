@@ -680,7 +680,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       left: 1000,
                       top: 200,
                       right: 1000,
-                      bottom: 200),
+                      bottom: 210),
                   child: CustomDialogSelectAvatar(
 
                     title: "Select your Avatar",
