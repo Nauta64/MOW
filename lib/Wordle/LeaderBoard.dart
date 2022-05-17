@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:MindOfWords/Models/lrankingw.dart';
 import 'package:MindOfWords/Models/rankingW.dart';
+import 'package:MindOfWords/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:page_transition/page_transition.dart';
 import '../HttpService.dart';
 
 class WordleLeaderBoardApp extends StatelessWidget {
@@ -77,6 +79,17 @@ class _MyHomePageState extends State<LeaderBoardView> {
             children = [
               Scaffold(
                   appBar: AppBar(
+                    leading: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 20.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: ProfileApp()));
+                          },
+                          child: const Icon(
+                            Icons.west,
+                            size: 26.0,
+                          ),
+                        )),
                     title: Text("Ranking Wordle"),
                   ),
                   body: ListView.builder(

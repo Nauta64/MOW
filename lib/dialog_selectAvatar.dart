@@ -105,7 +105,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
               SizedBox(
                 height: 15,
               ),
-              Container(
+              SingleChildScrollView(child: Container(
 
                 child: GridView.count(
                   shrinkWrap: true,
@@ -119,7 +119,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                     return image(photo.assetName);
                   }).toList(),
                 ),
-              ),
+              ),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

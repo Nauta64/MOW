@@ -257,7 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                                   ],
                                                                                             ),
                                                                                       ),
-                                                                                      Padding(padding: EdgeInsets.only(top: 10)),
+                                                                                      Padding(padding: EdgeInsets.only(top: 5)),
                                                                                       TextButton(
                                                                                             onPressed: () {
                                                                                                   Navigator.push(
@@ -277,6 +277,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                                       Colors.black),
                                                                                             ),
                                                                                       ),
+                                                                                  Padding(padding: EdgeInsets.only(top: 5)),
                                                                                 ],
                                                                           )),
                                                                 ),
