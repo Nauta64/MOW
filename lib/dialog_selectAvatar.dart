@@ -82,7 +82,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
       children: <Widget>[
         Container(
           width: 600,
-          height: 500,
+          height: 510,
           padding: EdgeInsets.only(
               left: Constants.padding,
               top: Constants.avatarRadius + Constants.padding,
