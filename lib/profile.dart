@@ -3,9 +3,11 @@ import 'package:MindOfWords/Spell/SpellLeaderBoard.dart';
 import 'package:MindOfWords/Synonyms/synonymsLeaderBoard.dart';
 import 'package:MindOfWords/Wordle/LeaderBoard.dart';
 import 'package:MindOfWords/SignUp.dart';
+import 'dart:io' show Platform;
 import 'package:MindOfWords/Wordle/domain.dart';
 import 'package:MindOfWords/Spell/domain.dart';
 import 'package:MindOfWords/Synonyms/domain.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -49,6 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
   late SpellStats spellstats;
   late SynStats synstats;
   Future<bool> _initialized = Future<bool>.value(false);
+
+  bool get isAndroid => !kIsWeb && Platform.isAndroid;
+  bool get isWindows => !kIsWeb && Platform.isWindows;
 
   // late XFile image;
   @override
@@ -629,27 +634,45 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _avatarPicker() {
     setState(() {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return Container(
-                padding: EdgeInsets.only(
-                    left: 20,
-                    top: 20,
-                    right: 20,
-                    bottom: 20),
-                child: CustomDialogSelectAvatar(
+      if(isAndroid){
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return CustomDialogSelectAvatar(
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(image: AssetImage('assets/spell_background.png')),
+                  );
 
-                  title: "Select your Avatar",
-                  descriptions:
-                  "Select your avatar to display as your profile picture",
-                  text: "Yes",
-                  text2: "No",
-                  img: Image(image: AssetImage('assets/spell_background.png')),
-                )
-            );
-          });
+            });
+      }
+      if(isWindows){
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return Container(
+                  padding: EdgeInsets.only(
+                      left: 200,
+                      top: 200,
+                      right: 200,
+                      bottom: 200),
+                  child: CustomDialogSelectAvatar(
+
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(image: AssetImage('assets/spell_background.png')),
+                  )
+              );
+            });
+      }
     });
   }
 
