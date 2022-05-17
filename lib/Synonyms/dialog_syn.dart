@@ -11,8 +11,9 @@ class CustomDialogBox extends StatefulWidget {
   final String title, descriptions, text, text2;
   final Image img;
   final int points;
+  final List<String> lista;
 
-  const CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.text, required this.img, required this.points, required this.text2}) : super(key: key);
+  const CustomDialogBox({Key? key, required this.title, required this.descriptions, required this.text, required this.img, required this.points, required this.text2, required this.lista}) : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
@@ -51,11 +52,17 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(widget.title,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-              SizedBox(height: 15,),
-              Text(widget.descriptions,style: TextStyle(fontSize: 14),textAlign: TextAlign.center,),
-              SizedBox(height: 22,),
-              Text("Points: ${widget.points}"),
+              Text(widget.title,style: TextStyle(fontSize: 25,fontWeight: FontWeight.w600),),
+              SizedBox(height: 18,),
+              Text(widget.descriptions,style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
+              SizedBox(height: 18,),
+              Text("Points: ${widget.points}",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600),),
+              SizedBox(height: 14,),
+              Text("Answers:",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600),),
+              SingleChildScrollView(
+                child: Text(widget.lista.toString())
+              ),
+              SizedBox(height: 14,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

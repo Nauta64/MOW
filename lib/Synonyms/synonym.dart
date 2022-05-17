@@ -146,7 +146,7 @@ class _SpellViewState extends State<SynView>
                                 height: 60,
                                 margin: EdgeInsets.symmetric(vertical: 5),
                                 child: SimpleTimer(
-                                    duration: const Duration(seconds: 60),
+                                    duration: const Duration(seconds: 5),
                                     controller: _timerController,
                                     onStart: handleTimerOnStart,
                                     onEnd: handleTimerOnEnd,
@@ -177,7 +177,7 @@ class _SpellViewState extends State<SynView>
                       ),
                     ),
                     Positioned(
-                        bottom: 250,
+                        bottom: 300,
                         top: 60,
                         left: 0,
                         right: 0,
@@ -208,7 +208,7 @@ class _SpellViewState extends State<SynView>
                     Positioned(
                       left: 15,
                       right: 15,
-                      bottom: 210,
+                      bottom: 250,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -273,10 +273,10 @@ class _SpellViewState extends State<SynView>
                           fit: BoxFit.contain,
                           child: SizedBox(
                               width: 400,
-                              height: 670,
+                              height: 730,
                               child: Stack(children: [
                                 Positioned(
-                                    top: 490,
+                                    top: 520,
                                     left: 0,
                                     child: Keyboard(
                                         _game.context.keys, _onKeyPressed)),
@@ -354,9 +354,9 @@ class _SpellViewState extends State<SynView>
               descriptions: "You made ${_game.context.aciertos} of ${_game.context.answer.syn.length}",
               text: "Yes",
               text2: "No",
-              img:
-              Image(image: AssetImage('assets/spell_background.png')),
+              img: Image(image: AssetImage('assets/spell_background.png')),
               points: points,
+              lista: _game.context.answer.syn,
             );
           });
     }));
