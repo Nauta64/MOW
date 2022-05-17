@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Spell/constants.dart';
 import 'Wordle/services/stats_service.dart';
 import 'Spell/services/stats_service.dart';
 import 'Synonyms/services/stats_service.dart';
@@ -699,10 +700,32 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (BuildContext context) {
               return Container(
                   padding: EdgeInsets.only(
-                      left: 200,
-                      top: 200,
-                      right: 200,
-                      bottom: 200),
+                      left: 400,
+                      top: 30,
+                      right: 400,
+                      bottom: 20),
+                  child: CustomDialogSelectAvatar(
+
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(image: AssetImage('assets/spell_background.png')),
+                  )
+              );
+            });
+      }else{
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return Container(
+                  padding: EdgeInsets.only(
+                      left: Constants.padding,
+                      top: Constants.avatarRadius + Constants.padding,
+                      right: Constants.padding,
+                      bottom: Constants.padding),
                   child: CustomDialogSelectAvatar(
 
                     title: "Select your Avatar",

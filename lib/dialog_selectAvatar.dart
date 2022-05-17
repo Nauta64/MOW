@@ -81,6 +81,8 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
     return Stack(
       children: <Widget>[
         Container(
+          width: 600,
+          height: 500,
           padding: EdgeInsets.only(
               left: Constants.padding,
               top: Constants.avatarRadius + Constants.padding,
@@ -102,24 +104,23 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                 widget.title,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              SingleChildScrollView(child: Container(
-
-                child: GridView.count(
-                  shrinkWrap: true,
-                  restorationId: 'grid_view_demo_grid_offset',
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                  padding: const EdgeInsets.all(8),
-                  childAspectRatio: 1,
-                  children: _photos(context).map<Widget>((photo) {
-                    return image(photo.assetName);
-                  }).toList(),
-                ),
-              ),),
+             Container(
+               width: 500,
+               height: 350,
+               child: GridView.count(
+                 shrinkWrap: true,
+                 restorationId: 'grid_view_demo_grid_offset',
+                 crossAxisCount: 3,
+                 mainAxisSpacing: 4,
+                 crossAxisSpacing: 4,
+                 padding: const EdgeInsets.all(8),
+                 childAspectRatio: 1,
+                 children: _photos(context).map<Widget>((photo) {
+                   return image(photo.assetName);
+                 }).toList(),
+               ),
+             ),
+            Padding(padding: EdgeInsets.only(top:10)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

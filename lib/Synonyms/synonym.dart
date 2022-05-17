@@ -382,7 +382,7 @@ class _SpellViewState extends State<SynView>
           barrierDismissible: false,
           builder: (BuildContext context) {
             return CustomDialogHowTo(
-              title: "How To Play Spell",
+              title: "How To Play Synonyms",
               descriptions: "The game starts with 3 lives.?",
               text: "Yes",
               text2: "No",
