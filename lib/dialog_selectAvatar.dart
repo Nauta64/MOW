@@ -120,10 +120,10 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                  }).toList(),
                ),
              ),
-            Padding(padding: EdgeInsets.only(top:10)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Padding(padding: EdgeInsets.only(top:10,bottom: 0)),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
