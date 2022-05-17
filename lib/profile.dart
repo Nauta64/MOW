@@ -637,85 +637,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   _avatarPicker() {
     setState(() {
-      if(isAndroid){
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return CustomDialogSelectAvatar(
-                    title: "Select your Avatar",
-                    descriptions:
-                    "Select your avatar to display as your profile picture",
-                    text: "Yes",
-                    text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
-                  );
 
-            });
-      }
-
-      if(isIOS){
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return CustomDialogSelectAvatar(
-                    title: "Select your Avatar",
-                    descriptions:
-                    "Select your avatar to display as your profile picture",
-                    text: "Yes",
-                    text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
-                  );
-
-            });
-      }
-      if(isWindows){
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return Container(
-                  padding: EdgeInsets.only(
-                      left: 1000,
-                      top: 200,
-                      right: 1000,
-                      bottom: 210),
-                  child: CustomDialogSelectAvatar(
-
-                    title: "Select your Avatar",
-                    descriptions:
-                    "Select your avatar to display as your profile picture",
-                    text: "Yes",
-                    text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
-                  )
-              );
-            });
-      }
-      if(isWeb){
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return Container(
-                  padding: EdgeInsets.only(
-                      left: 400,
-                      top: 30,
-                      right: 400,
-                      bottom: 20),
-                  child: CustomDialogSelectAvatar(
-
-                    title: "Select your Avatar",
-                    descriptions:
-                    "Select your avatar to display as your profile picture",
-                    text: "Yes",
-                    text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
-                  )
-              );
-            });
-      }else{
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -737,7 +659,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   )
               );
             });
-      }
+
     });
   }
 
