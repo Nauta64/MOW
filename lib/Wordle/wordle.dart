@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: const EdgeInsets.only(left: 16, right: 20.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                            Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
                           },
                           child: const Icon(
                             Icons.west,

@@ -4,6 +4,7 @@ import 'package:MindOfWords/Synonyms/dialog_syn.dart';
 import 'package:MindOfWords/Synonyms/syngame.dart';
 import 'package:MindOfWords/Synonyms/widgets/stats.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:simple_timer/simple_timer.dart';
 import 'package:quiver/collection.dart';
@@ -101,7 +102,7 @@ class _SpellViewState extends State<SynView>
                         padding: const EdgeInsets.only(left: 16, right: 20.0),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                              Navigator.of(context).pushReplacement(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
                           },
                           child: const Icon(
                             Icons.west,
