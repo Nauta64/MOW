@@ -45,28 +45,31 @@ class _MyHomePageState extends State<MyHomePage> {
   String? avatar = "";
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<bool> _initialized = Future<bool>.value(false);
+
   @override
   void initState() {
-    _initialized =_getUser().then((value) {
+    _initialized = _getUser().then((value) {
       _hasUser = value;
       print(value);
       return value;
     });
     super.initState();
   }
+
   Future<bool> _getUser() async {
     final SharedPreferences prefs = await _prefs;
     final String? username = prefs.getString('userName');
     final String? ava = await prefs.getString('avatar');
     bool a = false;
-    if(username != null){
+    if (username != null) {
       a = true;
     }
-    if(ava != null){
+    if (ava != null) {
       avatar = ava;
     }
     return a;
   }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -74,64 +77,62 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           List<Widget> children = [];
           if (_hasUser) {
-            children = [_withuser()
-              ];
+            children = [_withuser()];
           } else {
-            children = [
-              _withoutuser()
-            ];
+            children = [_withoutuser()];
           }
           return Stack(children: children);
         });
   }
+
   Widget _withuser() => MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.grey[300],
-          appBar: AppBar(
-            backgroundColor: Colors.black87,
-            title: Row(
-              children: [
-                Text("Mind Of Words"),
-              ],
-            ),
-            actions: [
-               _Logged_in(),
-              const SizedBox(
-                width: 25,
+        debugShowCheckedModeBanner: false,
+        home: SafeArea(
+          child: Scaffold(
+              backgroundColor: Colors.grey[300],
+              appBar: AppBar(
+                backgroundColor: Colors.black87,
+                title: Row(
+                  children: [
+                    Text("Mind Of Words"),
+                  ],
+                ),
+                actions: [
+                  _Logged_in(),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                ],
               ),
-            ],
-          ),
-          body: _body()
+              body: _body()),
         ),
-      ),
-    );
+      );
+
   Widget _withoutuser() => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: SafeArea(
-      child: Scaffold(
-          backgroundColor: Colors.grey[300],
-          appBar: AppBar(
-            backgroundColor: Colors.black87,
-            title: Row(
-              children: [
-                Text("Mind Of Words"),
-              ],
-            ),
-            actions: [
-              _NoSignUp(),
-              const SizedBox(
-                width: 25,
+        debugShowCheckedModeBanner: false,
+        home: SafeArea(
+          child: Scaffold(
+              backgroundColor: Colors.grey[300],
+              appBar: AppBar(
+                backgroundColor: Colors.black87,
+                title: Row(
+                  children: [
+                    Text("Mind Of Words"),
+                  ],
+                ),
+                actions: [
+                  _NoSignUp(),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                ],
               ),
-            ],
-          ),
-          body: _body()
-      ),
-    ),
-  );
+              body: _body()),
+        ),
+      );
+
   Widget _body() => Center(
-    child: SingleChildScrollView(
+          child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -142,8 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(10),
                 // color: Colors.deepPurple.shade100,
                 color: Colors.white,
-                border:
-                Border.all(width: 3.0, color: const Color(0xFF000000)),
+                border: Border.all(width: 3.0, color: const Color(0xFF000000)),
               ),
               child: Column(
                 children: [
@@ -154,8 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: Container(
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   "Wordle",
@@ -193,12 +192,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           child: Text('Play'),
                           style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(
+                            backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.black38),
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(
-                                Colors.black),
+                                MaterialStateProperty.all<Color>(Colors.black),
                           ),
                         ),
                       ],
@@ -215,8 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(10),
                 // color: Colors.deepPurple.shade100,
                 color: Colors.white,
-                border:
-                Border.all(width: 3.0, color: const Color(0xFF000000)),
+                border: Border.all(width: 3.0, color: const Color(0xFF000000)),
               ),
               child: Column(
                 children: [
@@ -227,8 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: Container(
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   "Spell Word",
@@ -266,12 +261,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           child: Text('Play'),
                           style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(
+                            backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.black38),
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(
-                                Colors.black),
+                                MaterialStateProperty.all<Color>(Colors.black),
                           ),
                         ),
                       ],
@@ -288,8 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 borderRadius: BorderRadius.circular(10),
                 // color: Colors.deepPurple.shade100,
                 color: Colors.white,
-                border:
-                Border.all(width: 3.0, color: const Color(0xFF000000)),
+                border: Border.all(width: 3.0, color: const Color(0xFF000000)),
               ),
               child: Column(
                 children: [
@@ -300,8 +292,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: Container(
                             child: Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
                                   "Synonyms",
@@ -333,18 +324,15 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => SynApp()),
+                              MaterialPageRoute(builder: (context) => SynApp()),
                             );
                           },
                           child: Text('Play'),
                           style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(
+                            backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.black38),
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(
-                                Colors.black),
+                                MaterialStateProperty.all<Color>(Colors.black),
                           ),
                         ),
                       ],
@@ -354,12 +342,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ],
-        )),
-  );
+        ),
+      ));
+
   Widget _NoSignUp() => PopupMenuButton(
-    // add icon, by default "3 dot" icon
-    // icon: Icon(Icons.book)
-      itemBuilder: (context) {
+          // add icon, by default "3 dot" icon
+          // icon: Icon(Icons.book)
+          itemBuilder: (context) {
         return [
           PopupMenuItem<int>(
             value: 0,
@@ -371,22 +360,18 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ];
       }, onSelected: (value) {
-    if (value == 0) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => const SignUpPage()));
-    } else if (value == 1) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => const SignInPage()));
-    }
-  });
+        if (value == 0) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (builder) => const SignUpPage()));
+        } else if (value == 1) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (builder) => const SignInPage()));
+        }
+      });
 
   Widget _Logged_in() => PopupMenuButton(
-    // add icon, by default "3 dot" icon
-     icon: Image.asset(avatar!),
+      // add icon, by default "3 dot" icon
+      icon: Image.asset(avatar!),
       itemBuilder: (context) {
         return [
           PopupMenuItem<int>(
@@ -398,32 +383,29 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text("Log Out"),
           ),
         ];
-      }, onSelected: (value) async {
-    if (value == 0) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => ProfileApp()));
-    } else if (value == 1) {
-      final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('userName');
-      await prefs.remove('mail');
-      await prefs.remove('password');
-      await prefs.remove('avatar');
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (builder) => const MyApp()));
-    }
-  });
+      },
+      onSelected: (value) async {
+        if (value == 0) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (builder) => ProfileApp()));
+        } else if (value == 1) {
+          final Future<SharedPreferences> _prefs =
+              SharedPreferences.getInstance();
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.remove('userName');
+          await prefs.remove('mail');
+          await prefs.remove('password');
+          await prefs.remove('avatar');
+          Navigator.push(
+              context, MaterialPageRoute(builder: (builder) => const MyApp()));
+        }
+      });
+
   _openHelp() {
     setState(() {
       _showHelp = true;
     });
   }
-
-
 
   _openSettings() {
     setState(() {
