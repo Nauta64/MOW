@@ -146,7 +146,7 @@ class _SpellViewState extends State<SynView>
                                 height: 60,
                                 margin: EdgeInsets.symmetric(vertical: 5),
                                 child: SimpleTimer(
-                                    duration: const Duration(seconds: 5),
+                                    duration: const Duration(seconds: 60),
                                     controller: _timerController,
                                     onStart: handleTimerOnStart,
                                     onEnd: handleTimerOnEnd,
