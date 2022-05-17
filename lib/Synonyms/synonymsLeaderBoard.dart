@@ -14,6 +14,7 @@ class SynonymLeaderBoardApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter App Learning',
         theme: ThemeData(
           primarySwatch: Colors.grey,
