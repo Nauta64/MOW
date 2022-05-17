@@ -82,7 +82,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
       children: <Widget>[
         Container(
           width: 600,
-          height: 520,
+          height: 530,
           padding: EdgeInsets.only(
               left: Constants.padding,
               top: Constants.avatarRadius + Constants.padding,
@@ -120,10 +120,11 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
                  }).toList(),
                ),
              ),
+              Padding(padding: EdgeInsets.only(bottom: 5)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsets.only(bottom: 0)),
+                  Padding(padding: EdgeInsets.only(bottom: 40)),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
