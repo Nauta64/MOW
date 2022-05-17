@@ -638,6 +638,7 @@ class _ProfilePageState extends State<ProfilePage> {
   _avatarPicker() {
     setState(() {
 
+      if(isAndroid) {
         showDialog(
             context: context,
             barrierDismissible: false,
@@ -655,11 +656,35 @@ class _ProfilePageState extends State<ProfilePage> {
                     "Select your avatar to display as your profile picture",
                     text: "Yes",
                     text2: "No",
-                    img: Image(image: AssetImage('assets/spell_background.png')),
+                    img: Image(
+                        image: AssetImage('assets/spell_background.png')),
                   )
               );
             });
+      } else {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return Container(
+                  padding: EdgeInsets.only(
+                      left: Constants.padding,
+                      top: Constants.avatarRadius + Constants.padding,
+                      right: Constants.padding,
+                      bottom: Constants.padding),
+                  child: CustomDialogSelectAvatar(
 
+                    title: "Select your Avatar",
+                    descriptions:
+                    "Select your avatar to display as your profile picture",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(
+                        image: AssetImage('assets/spell_background.png')),
+                  )
+              );
+            });
+      }
     });
   }
 

@@ -82,7 +82,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
       children: <Widget>[
         Container(
           width: 600,
-          height: 530,
+          height: 415,
           padding: EdgeInsets.only(
               left: Constants.padding,
               top: Constants.avatarRadius + Constants.padding,
@@ -106,7 +106,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
               ),
              Container(
                width: 500,
-               height: 370,
+               height: 250,
                child: GridView.count(
                  shrinkWrap: true,
                  restorationId: 'grid_view_demo_grid_offset',
