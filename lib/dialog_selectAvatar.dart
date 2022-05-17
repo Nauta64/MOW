@@ -106,7 +106,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
               ),
              Container(
                width: 500,
-               height: 350,
+               height: 370,
                child: GridView.count(
                  shrinkWrap: true,
                  restorationId: 'grid_view_demo_grid_offset',
@@ -123,7 +123,7 @@ class _CustomDialogBoxState extends State<CustomDialogSelectAvatar> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsets.only(top:10,bottom: 0)),
+                  Padding(padding: EdgeInsets.only(bottom: 0)),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: FlatButton(
