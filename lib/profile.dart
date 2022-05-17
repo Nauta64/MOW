@@ -633,13 +633,21 @@ class _ProfilePageState extends State<ProfilePage> {
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return CustomDialogSelectAvatar(
-              title: "Select your Avatar",
-              descriptions:
+            return Container(
+                padding: EdgeInsets.only(
+                    left: 20,
+                    top: 20,
+                    right: 20,
+                    bottom: 20),
+                child: CustomDialogSelectAvatar(
+
+                  title: "Select your Avatar",
+                  descriptions:
                   "Select your avatar to display as your profile picture",
-              text: "Yes",
-              text2: "No",
-              img: Image(image: AssetImage('assets/spell_background.png')),
+                  text: "Yes",
+                  text2: "No",
+                  img: Image(image: AssetImage('assets/spell_background.png')),
+                )
             );
           });
     });
