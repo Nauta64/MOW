@@ -1,17 +1,21 @@
 import 'dart:io';
-import 'package:MindOfWords/LeaderBoard.dart';
+import 'package:MindOfWords/Spell/SpellLeaderBoard.dart';
+import 'package:MindOfWords/Synonyms/synonymsLeaderBoard.dart';
+import 'package:MindOfWords/Wordle/LeaderBoard.dart';
 import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Wordle/domain.dart';
 import 'package:MindOfWords/Spell/domain.dart';
 import 'package:MindOfWords/Synonyms/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Wordle/services/stats_service.dart';
 import 'Spell/services/stats_service.dart';
 import 'Synonyms/services/stats_service.dart';
 import 'dialog_selectAvatar.dart';
+import 'main.dart';
 
 class ProfileApp extends StatelessWidget {
   const ProfileApp({Key? key}) : super(key: key);
@@ -67,6 +71,22 @@ class _ProfilePageState extends State<ProfilePage> {
 
               Scaffold(
                   backgroundColor: Colors.grey[300],
+                  appBar: AppBar(
+                    leading: Padding(
+                        padding: const EdgeInsets.only(left: 16, right: 20.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(type: PageTransitionType.leftToRight, child: MyApp()));
+                          },
+                          child: const Icon(
+                            Icons.west,
+                            size: 26.0,
+                          ),
+                        )),
+                    title: Text("Profile"),
+                    centerTitle: true,
+
+                  ),
                   body: SafeArea(
                       child:SingleChildScrollView(
                             child: Container(
@@ -74,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
+                                          Padding(padding: EdgeInsets.only(top: 10)),
                                               CircleAvatar(
                                                     radius: 60,
                                                     backgroundImage: getImage(pathimage),
@@ -243,7 +264,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                                         context,
                                                                                                         MaterialPageRoute(
                                                                                                             builder: (context) =>
-                                                                                                                LeaderBoardApp()),
+                                                                                                                WordleLeaderBoardApp()),
                                                                                                   );
                                                                                             },
                                                                                             child: Text('Leaderboard'),
@@ -405,7 +426,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                                         context,
                                                                                                         MaterialPageRoute(
                                                                                                             builder: (context) =>
-                                                                                                                LeaderBoardApp()),
+                                                                                                                SpellLeaderBoardApp()),
                                                                                                   );
                                                                                             },
                                                                                             child: Text('Leaderboard'),
@@ -567,7 +588,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                                                         context,
                                                                                                         MaterialPageRoute(
                                                                                                             builder: (context) =>
-                                                                                                                LeaderBoardApp()),
+                                                                                                                SynonymLeaderBoardApp()),
                                                                                                   );
                                                                                             },
                                                                                             child: Text('Leaderboard'),

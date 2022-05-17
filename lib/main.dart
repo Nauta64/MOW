@@ -1,4 +1,4 @@
-import 'package:MindOfWords/LeaderBoard.dart';
+import 'package:MindOfWords/Wordle/LeaderBoard.dart';
 import 'package:MindOfWords/SignUp.dart';
 import 'package:MindOfWords/Synonyms/synonym.dart';
 import 'package:MindOfWords/profile.dart';

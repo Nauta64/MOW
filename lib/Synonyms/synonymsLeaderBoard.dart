@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:MindOfWords/Models/lrankingw.dart';
+import 'package:MindOfWords/Models/rankingSyn.dart';
 import 'package:MindOfWords/Models/rankingW.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'HttpService.dart';
+import '../HttpService.dart';
 
-class LeaderBoardApp extends StatelessWidget {
+class SynonymLeaderBoardApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +28,7 @@ class LeaderBoardView extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<LeaderBoardView> {
-  late List<RankingW> r;
+  late List<RankingSyn> r;
 
   Future<bool> _initialized = Future<bool>.value(false);
 
@@ -46,18 +47,18 @@ class _MyHomePageState extends State<LeaderBoardView> {
     return true;
   }
 
-  Future<List<RankingW>> getRanking() async {
+  Future<List<RankingSyn>> getRanking() async {
     Response res =
-        await get(Uri.parse("https://mowapi.herokuapp.com/getrankingWordle"));
+        await get(Uri.parse("https://mowapi.herokuapp.com/getrankingSyn"));
 
     if (res.statusCode == 200) {
-      List<RankingW> rank = List<RankingW>.empty(growable: true);
+      List<RankingSyn> rank = List<RankingSyn>.empty(growable: true);
       int count = 0;
       print(res.body);
       Map<String, dynamic> body = jsonDecode(res.body);
       for (int i = 0; i < body.keys.length; i++) {
         print(body["$i"]);
-        rank.add(RankingW.fromJson(body["$i"]));
+        rank.add(RankingSyn.fromJson(body["$i"]));
       }
 
       r = rank;
@@ -88,9 +89,9 @@ class _MyHomePageState extends State<LeaderBoardView> {
                           ),
                           title: Text("${index+1}   ${r[index].UserName}"),
                           trailing: Column(children: [
-                            Text("Won: ${r[index].StatW.won}"),
+                            Text("Won: ${r[index].StatS.won}"),
                             Padding(padding: EdgeInsets.only(top: 5)),
-                            Text("Max Streak: ${r[index].StatW.streak.max}"),
+                            Text("Max Streak: ${r[index].StatS.streak.max}"),
                           ],),
                         ),
                       );
