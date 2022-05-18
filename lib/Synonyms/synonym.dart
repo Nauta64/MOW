@@ -242,7 +242,7 @@ class _SpellViewState extends State<SynView>
                                   } else {
                                     if(txt.text != ""){
                                       entries
-                                          .add(txt.text);
+                                          .add(txt.text.toLowerCase());
                                       _game.context.guess = "";
                                       txt.text = "";
                                     }

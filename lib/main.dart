@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              body: _body()),
+              body: SingleChildScrollView(child: _body(),)),
         ),
       );
 
