@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
@@ -18,6 +17,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   Widget currentPage = const SignUpPage();
+
   @override
   void initState() {
     super.initState();
@@ -25,11 +25,9 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void checkLogin() async {
-
-      setState(() {
-        currentPage = const MyApp();
-      });
-
+    setState(() {
+      currentPage = const MyApp();
+    });
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -37,82 +35,92 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool circular = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.black,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Sign Up",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              mailItem("Email", _emailController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              textItem("UserName", _nameController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              textItem("Password", _passwordController, true),
-              const SizedBox(
-                height: 15,
-              ),
-              colorButton("Sign Up"),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
+        key: _scaffoldKey,
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            // color: Colors.deepPurple.shade100,
+            image: DecorationImage(
+              image: AssetImage("assets/bg5.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   const Text(
-                    "If you already have an Account ?",
+                    "Sign Up",
                     style: TextStyle(
+                      fontSize: 35,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => const SignInPage()),
-                              (route) => false);
-                    },
-                    child: const Text(
-                      " Login",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  mailItem("Email", _emailController, false),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  textItem("UserName", _nameController, false),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  textItem("Password", _passwordController, true),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  colorButton("Sign Up"),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        "If you already have an Account ?",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => const SignInPage()),
+                              (route) => false);
+                        },
+                        child: const Text(
+                          " Login",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget buttonItem(
@@ -134,7 +142,6 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               const SizedBox(
                 width: 15,
               ),
@@ -165,6 +172,8 @@ class _SignUpPageState extends State<SignUpPage> {
           color: Colors.white,
         ),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.black,
           labelText: name,
           labelStyle: const TextStyle(
             fontSize: 17,
@@ -188,6 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
   Widget mailItem(
       String name, TextEditingController controller, bool obsecureText) {
     return Container(
@@ -201,6 +211,8 @@ class _SignUpPageState extends State<SignUpPage> {
           color: Colors.white,
         ),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.black,
           labelText: name,
           labelStyle: const TextStyle(
             fontSize: 17,
@@ -233,28 +245,40 @@ class _SignUpPageState extends State<SignUpPage> {
           circular = true;
         });
         try {
-          if(!_emailController.text.contains("@")){
+          if (!_emailController.text.contains("@")) {
             final snackbar = SnackBar(content: Text("Mail no valid"));
             ScaffoldMessenger.of(context).showSnackBar(snackbar);
-          }else{
+          } else {
             final prefs = await SharedPreferences.getInstance();
-            final jsonString = json.encode(User(Mail: _emailController.text,UserName: _nameController.text,Password: _passwordController.text, img: "assets/avatars/cerdo.png"));
-            final headers = {HttpHeaders.contentTypeHeader: 'application/json', "Access-Control-Allow-Origin": "*"};
-            final response = await http.post(Uri.parse("https://mowapi.herokuapp.com/adduser"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
+            final jsonString = json.encode(User(
+                Mail: _emailController.text,
+                UserName: _nameController.text,
+                Password: _passwordController.text,
+                img: "assets/avatars/cerdo.png"));
+            final headers = {
+              HttpHeaders.contentTypeHeader: 'application/json',
+              "Access-Control-Allow-Origin": "*"
+            };
+            final response = await http
+                .post(Uri.parse("https://mowapi.herokuapp.com/adduser"),
+                    headers: headers, body: jsonString)
+                .timeout(const Duration(seconds: 5))
+                .catchError((onError) {
               print("Conexion no establecida, error en la conexion");
             });
             Map<String, dynamic> user;
-            if(response.statusCode == 200){
+            if (response.statusCode == 200) {
               print("Conexion Establecida");
               await prefs.setString('userName', _nameController.text);
               await prefs.setString('mail', _emailController.text);
-              await prefs.setString('avatar',"assets/avatars/cerdo.png");
+              await prefs.setString('avatar', "assets/avatars/cerdo.png");
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (builder) => const MyApp()),
-                      (route) => false);
-            }else{
-              final snackbar = SnackBar(content: Text("This username is taken"));
+                  (route) => false);
+            } else {
+              final snackbar =
+                  SnackBar(content: Text("This username is taken"));
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             }
 
@@ -268,7 +292,6 @@ class _SignUpPageState extends State<SignUpPage> {
           setState(() {
             circular = false;
           });
-
         } catch (e) {
           final snackbar = SnackBar(content: Text(e.toString()));
           ScaffoldMessenger.of(context).showSnackBar(snackbar);
@@ -292,10 +315,10 @@ class _SignUpPageState extends State<SignUpPage> {
           child: circular
               ? const CircularProgressIndicator()
               : Text(name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              )),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  )),
         ),
       ),
     );

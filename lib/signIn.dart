@@ -29,7 +29,7 @@ class _SignInPageState extends State<SignInPage> {
             borderRadius: BorderRadius.circular(10),
             // color: Colors.deepPurple.shade100,
             image: DecorationImage(
-              image: AssetImage("assets/bg5_2000x2000.png"),
+              image: AssetImage("assets/bg5.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -37,7 +37,6 @@ class _SignInPageState extends State<SignInPage> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -60,7 +59,7 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  colorButton("Sign Up"),
+                  colorButton("Login"),
                   const SizedBox(
                     height: 15,
                   ),
@@ -156,12 +155,13 @@ class _SignInPageState extends State<SignInPage> {
       child: TextFormField(
         controller: controller,
         obscureText: obsecureText,
-
         style: const TextStyle(
           fontSize: 17,
           color: Colors.white,
         ),
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.black,
           labelText: name,
           labelStyle: const TextStyle(
             fontSize: 17,
