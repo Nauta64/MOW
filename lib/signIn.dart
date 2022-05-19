@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Models/login.dart';
 import 'SignUp.dart';
 
-
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -25,83 +24,91 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.black,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Sign In",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+        body: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            // color: Colors.deepPurple.shade100,
+            image: DecorationImage(
+              image: AssetImage("assets/bg5_2000x2000.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
 
-              textItem("User Name", _emailController, false),
-              const SizedBox(
-                height: 15,
-              ),
-              textItem("Password", _passwordController, true),
-              const SizedBox(
-                height: 15,
-              ),
-              colorButton("Sign Up"),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "If you don't have an Account ?",
+                    "Sign In",
                     style: TextStyle(
+                      fontSize: 35,
                       color: Colors.white,
-                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (builder) => const SignUpPage()),
-                              (route) => false);
-                    },
-                    child: const Text(
-                      " Sign In",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  textItem("User Name", _emailController, false),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  textItem("Password", _passwordController, true),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  colorButton("Sign Up"),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "If you don't have an Account ?",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => const SignUpPage()),
+                              (route) => false);
+                        },
+                        child: const Text(
+                          " Sign In",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Forgot Password ?",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 17,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Forgot Password ?",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+    ));
   }
 
   Widget buttonItem(
@@ -123,7 +130,6 @@ class _SignInPageState extends State<SignInPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               const SizedBox(
                 width: 15,
               ),
@@ -146,9 +152,11 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
       width: MediaQuery.of(context).size.width - 70,
       height: 55,
+
       child: TextFormField(
         controller: controller,
         obscureText: obsecureText,
+
         style: const TextStyle(
           fontSize: 17,
           color: Colors.white,
@@ -184,12 +192,19 @@ class _SignInPageState extends State<SignInPage> {
         try {
           final prefs = await SharedPreferences.getInstance();
 
-          final jsonString = json.encode(LogUser(UserName: _emailController.text,Password: _passwordController.text, img: ""));
+          final jsonString = json.encode(LogUser(
+              UserName: _emailController.text,
+              Password: _passwordController.text,
+              img: ""));
           final headers = {HttpHeaders.contentTypeHeader: 'application/json'};
-          final response = await http.post(Uri.parse("https://mowapi.herokuapp.com/login"),headers: headers, body: jsonString).timeout(const Duration(seconds: 5)).catchError((onError){
+          final response = await http
+              .post(Uri.parse("https://mowapi.herokuapp.com/login"),
+                  headers: headers, body: jsonString)
+              .timeout(const Duration(seconds: 5))
+              .catchError((onError) {
             print("Conexion no establecida, error en la conexion");
           });
-          if(response.statusCode == 200){
+          if (response.statusCode == 200) {
             print("Conexion Establecida");
             Map<String, dynamic> body = jsonDecode(response.body);
             await prefs.setString('userName', _emailController.text);
@@ -202,7 +217,7 @@ class _SignInPageState extends State<SignInPage> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (builder) => const MyApp()),
-                  (route) => false);
+              (route) => false);
         } catch (e) {
           print(e.toString());
           final snackbar = SnackBar(content: Text(e.toString()));
@@ -227,10 +242,10 @@ class _SignInPageState extends State<SignInPage> {
           child: circular
               ? const CircularProgressIndicator()
               : Text(name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              )),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  )),
         ),
       ),
     );

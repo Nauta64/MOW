@@ -207,10 +207,10 @@ class text_to_speech extends State<SpellView> {
         _game.context.guess = txt.text;
       });
       _game.updateAfterSuccessfulGuess(txt.text).then((_) => setState(() {
-            points++;
-            txt.text = "";
-            getWordForAudio();
-          }));
+        points++;
+        txt.text = "";
+        getWordForAudio();
+      }));
       // print(_game.context.guess);
       // setState(() {
       //   points++;
@@ -222,21 +222,21 @@ class text_to_speech extends State<SpellView> {
         _healts = _healts - 1;
         if (_healts == 0) {
           _game.updateAfterSuccessfulGuess(txt.text).then((_) => setState(() {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return CustomDialogBox(
-                        title: "Game Over",
-                        descriptions: "You lost, do you want to try again?",
-                        text: "Yes",
-                        text2: "No",
-                        img: Image(
-                            image: AssetImage('assets/spell_background.png')),
-                        points: points,
-                      );
-                    });
-              }));
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return CustomDialogBox(
+                    title: "Game Over",
+                    descriptions: "You lost, do you want to try again?",
+                    text: "Yes",
+                    text2: "No",
+                    img: Image(
+                        image: AssetImage('assets/spell_background.png')),
+                    points: points,
+                  );
+                });
+          }));
         }
       });
     }
@@ -447,35 +447,35 @@ class text_to_speech extends State<SpellView> {
   Widget _actionBar() => Row();
 
   Widget _ratingBar() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 10.0, right: 65.0),
-            child: Text(
-              "Points: ${points}",
-              style: TextStyle(fontSize: 30),
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      Container(
+        padding: EdgeInsets.only(top: 10.0, right: 65.0),
+        child: Text(
+          "Points: ${points}",
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+      Container(
+          padding: EdgeInsets.only(top: 10.0),
+          child: RatingBar(
+            initialRating: _healts,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            ignoreGestures: true,
+            itemCount: 3,
+            ratingWidget: RatingWidget(
+              full: _image('assets/heart.png'),
+              half: _image('assets/heart_half.png'),
+              empty: _image('assets/heart_border.png'),
             ),
-          ),
-          Container(
-              padding: EdgeInsets.only(top: 10.0),
-              child: RatingBar(
-                initialRating: _healts,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                ignoreGestures: true,
-                itemCount: 3,
-                ratingWidget: RatingWidget(
-                  full: _image('assets/heart.png'),
-                  half: _image('assets/heart_half.png'),
-                  empty: _image('assets/heart_border.png'),
-                ),
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              )),
-        ],
-      );
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
+          )),
+    ],
+  );
 
   Widget _inputSection() => Container(
       alignment: Alignment.topCenter,
@@ -518,13 +518,13 @@ class text_to_speech extends State<SpellView> {
   }
 
   Widget _enginesDropDownSection(dynamic engines) => Container(
-        padding: EdgeInsets.only(top: 30.0),
-        child: DropdownButton(
-          value: engine,
-          items: getEnginesDropDownMenuItems(engines),
-          onChanged: changedEnginesDropDownItem,
-        ),
-      );
+    padding: EdgeInsets.only(top: 30.0),
+    child: DropdownButton(
+      value: engine,
+      items: getEnginesDropDownMenuItems(engines),
+      onChanged: changedEnginesDropDownItem,
+    ),
+  );
 
   Widget _languageDropDownSection(dynamic languages) => Container(
       padding: EdgeInsets.only(top: 10.0),

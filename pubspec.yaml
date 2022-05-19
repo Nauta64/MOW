@@ -90,6 +90,9 @@ flutter:
     - assets/avatars/perro.png
     - assets/avatars/vaca.png
     - assets/avatars/zorro.png
+    - assets/bg5.jpg
+    - assets/bg5_3000x3000.png
+    - assets/bg5_2000x2000.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
